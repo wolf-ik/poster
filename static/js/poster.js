@@ -19,11 +19,12 @@
         .module('poster')
         .run(run)
 
-    run.$inject = ['$http'];
+    run.$inject = ['$http', 'Authentication'];
 
-    function run($http) {
-    $http.defaults.xsrfHeaderName = 'X-CSRFToken';
-    $http.defaults.xsrfCookieName = 'csrftoken';
+    function run($http, Authentication) {
+        Authentication.getAuthenticatedAccountFromServer();
+        $http.defaults.xsrfHeaderName = 'X-CSRFToken';
+        $http.defaults.xsrfCookieName = 'csrftoken';
     }
 
 })();
