@@ -66,7 +66,7 @@
 
       function logoutErrorFn(data, status, headers, config) {
         $.snackbar({
-          'content': data.data.message
+          'content': data.data.detail
         });
       }
     }
@@ -85,7 +85,7 @@
 
       function registerErrorFn(data, status, headers, config) {
         $.snackbar({
-          'content': "Please enter valid data."
+          'content': data.data.message
         });
       }
     }

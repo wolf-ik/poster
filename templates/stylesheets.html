@@ -2,7 +2,9 @@
 {% load staticfiles %}
 
 {% compress css %}
-<link rel="stylesheet" type="text/css" href="{% static 'bower_components/bootstrap/dist/css/bootstrap.css' %}" />
-<link rel="stylesheet" type="text/css" href="{% static 'bower_components/snackbarjs/dist/snackbar.min.css' %}" />
-<link rel="stylesheet" type="text/css" href="{% static 'bower_components/snackbarjs/themes-css/material.css' %}" />
+{#    <link rel="stylesheet" type="text/css" href="{% static 'bower_components/bootstrap/dist/css/bootstrap.css' %}" />#}
+    <link rel="stylesheet" type="text/css" href="{% static 'themes/slate.css' %}" />
+{#    <link rel="stylesheet" type="text/css" href="{% static 'themes/spacelab.css' %}" />#}
+    <link rel="stylesheet" type="text/css" href="{% static 'bower_components/snackbarjs/dist/snackbar.min.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'bower_components/snackbarjs/themes-css/material.css' %}" />
 {% endcompress %}
