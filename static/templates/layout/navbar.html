@@ -1,0 +1,15 @@
+<nav class="navbar navbar-default" role="navigation">
+  <div class="container-fluid">
+    <div class="navbar-brand">
+      Poster
+    </div>
+      <div class="collapse navbar-collapse" id="we-are-borg-navbar">
+          <ul class="nav navbar-nav pull-right">
+              <li ng-show="isAuthenticated()"><a href="javascript:void(0)" ng-click="logout()">Logout</a></li>
+              <li ng-show="!isAuthenticated()"><a ui-sref="app.login">Login</a></li>
+              <li ng-show="!isAuthenticated()"><a ui-sref=".register">Register</a></li>
+          </ul>
+      </div>
+
+  </div>
+</nav>

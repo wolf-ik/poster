@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html ng-app="poster">
+<head>
+  <title>poster</title>
+
+  <base href="/" />
+
+  {% include 'stylesheets.html' %}
+</head>
+
+<body>
+
+    <div ui-view="header"></div>
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xs-12" ui-view="content"></div>
+    </div>
+  </div>
+
+  {% include 'javascripts.html' %}
+</body>
+</html>
