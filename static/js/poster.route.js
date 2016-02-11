@@ -43,7 +43,32 @@
             'content@': {
               templateUrl: '/static/templates/authentication/register.html',
               controller: 'RegisterController',
-              controllerAs: 'vm'
+              controllerAs: 'vm',
+            }
+          }
+        })
+
+        .state('app.accounts', {
+          url: 'accounts',
+          abstract: true,
+        })
+
+        .state('app.accounts.detail', {
+          url: '/:username',
+          views: {
+            'content@': {
+              templateUrl: '/static/templates/accounts/account.html',
+              controller: 'AccountController',
+            }
+          }
+        })
+
+        .state('app.accounts.detail.settings', {
+          url: '/settings',
+          views: {
+            'content@': {
+              templateUrl: '/static/templates/accounts/settings.html',
+              controller: 'AccountSettingsController',
             }
           }
         })

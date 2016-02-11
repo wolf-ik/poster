@@ -29,7 +29,7 @@
 
       function sessionSuccessFn(data, status, headers, config) {
         setAuthenticatedAccount(data.data)
-        $state.go('app');
+        //$state.go('app');
       }
 
       function sessionErrorFn(data, status, headers, config) {
@@ -55,7 +55,7 @@
     function setAuthenticatedAccount(account) {
       //$cookies.authenticatedAccount = JSON.stringify(account); THIS SHIT DON'T WORKING, HATE THIS
       //$cookies.put("authenticatedAccount", JSON.stringify(account));
-      $rootScope.user = account;
+       $rootScope.user = account;
     }
 
     function unauthenticate() {

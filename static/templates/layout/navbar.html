@@ -13,6 +13,7 @@
 
       <div class="collapse navbar-collapse" id="we-are-borg-navbar">
           <ul class="nav navbar-nav pull-right">
+              <li ng-show="isAuthenticated()"><a ui-sref="app.accounts.detail({username: account.username})">My profile</a></li>
               <li ng-show="isAuthenticated()"><a href="javascript:void(0)" ng-click="logout()">Logout</a></li>
               <li ng-show="!isAuthenticated()"><a ui-sref="app.login">Login</a></li>
               <li ng-show="!isAuthenticated()"><a ui-sref="app.register">Register</a></li>

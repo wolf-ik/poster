@@ -1,0 +1,18 @@
+<div class="account" ng-show="account">
+    <div>
+        <h1>{{ account.username }}</h1>
+        <h2 ng-show="account.first_name">First name: {{ account.first_name }}</h2>
+        <h2 ng-show="account.last_name">Last name: {{ account.last_name }}</h2>
+        <div ng-show="account.description" class="well well-sm">
+            Description: {{ account.description }}
+        </div>
+        <blockquote ng-show="account.best_quote">
+            <p>{{ account.best_quote }}</p>
+        </blockquote>
+        <div ng-show="account.interests" class="well well-sm">
+            Interests: {{ account.interests }}
+        </div>
+
+        <a ui-sref=".settings" class="btn btn-info" ng-show="isAccountOwnerOrAdmin">edit</a>
+    </div>
+</div>

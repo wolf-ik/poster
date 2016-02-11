@@ -7,6 +7,7 @@
             'poster.authentication',
             'poster.route',
             'poster.config',
+            'poster.accounts',
         ]);
 
     angular
