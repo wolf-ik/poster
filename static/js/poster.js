@@ -8,6 +8,7 @@
             'poster.route',
             'poster.config',
             'poster.accounts',
+            'poster.utils',
         ]);
 
     angular

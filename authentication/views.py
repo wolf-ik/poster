@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from rest_framework import permissions, status, views, viewsets
 from rest_framework.response import Response
 
-from authentication.permissions import IsAccountOwner
+from authentication.permissions import IsAccountOwnerOrAdmin
 from authentication.models import Account
 from authentication.serializers import AccountSerializer
 
@@ -22,7 +22,7 @@ class AccountViewSet(viewsets.ModelViewSet):
         if self.request.method == 'POST':
             return (permissions.AllowAny(),)
 
-        return (permissions.IsAuthenticated(), IsAccountOwner(),)
+        return (permissions.IsAuthenticated(), IsAccountOwnerOrAdmin(),)
 
     def create(self, request):
         serializer = self.serializer_class(data=request.data)

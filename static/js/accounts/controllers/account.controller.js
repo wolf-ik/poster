@@ -5,9 +5,9 @@
     .module('poster.accounts.controllers')
     .controller('AccountController', AccountController);
 
-  AccountController.$inject = ['$scope', '$location', '$stateParams', 'Account'];
+  AccountController.$inject = ['$scope', '$location', '$stateParams', 'Account', 'Snackbar'];
 
-  function AccountController($scope, $location, $stateParams, Account) {
+  function AccountController($scope, $location, $stateParams, Account, Snackbar) {
     $scope.account = undefined;
     $scope.username = $stateParams.username;
     $scope.isAccountOwnerOrAdmin = Account.isAccountOwnerOrAdmin($scope.username);
@@ -15,7 +15,6 @@
     activate();
 
     function activate() {
-      //var username = $routeParams.username.substr(1);
 
       Account.get($scope.username).then(getSuccessFn, getErrorFn);
 
@@ -25,7 +24,8 @@
 
       function getErrorFn(data, status, headers, config) {
         $location.url('/');
-        //Snackbar.error('That user does not exist.');
+        Snackbar.show('That user does not exist.');
+        //Snackbar.show(data.data.detail);
       }
     }
   }

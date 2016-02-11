@@ -5,9 +5,9 @@
     .module('poster.authentication.services')
     .factory('Authentication', Authentication);
 
-  Authentication.$inject = ['$http', '$rootScope', '$state'];
+  Authentication.$inject = ['$http', '$rootScope', '$state', 'Snackbar'];
 
-  function Authentication($http, $rootScope, $state) {
+  function Authentication($http, $rootScope, $state, Snackbar) {
 
     var Authentication = {
       getAuthenticatedAccountFromServer: getAuthenticatedAccountFromServer,
@@ -76,9 +76,10 @@
       }
 
       function loginErrorFn(data, status, headers, config) {
-        $.snackbar({
-          'content': data.data.message
-        });
+        Snackbar.show(data.data.message);
+        //$.snackbar({
+        //  'content': data.data.message
+        //});
       }
     }
 
@@ -93,9 +94,10 @@
       }
 
       function logoutErrorFn(data, status, headers, config) {
-        $.snackbar({
-          'content': data.data.detail
-        });
+        Snackbar.show(data.data.detail);
+        //$.snackbar({
+        //  'content': data.data.detail
+        //});
       }
     }
 
@@ -112,9 +114,10 @@
       }
 
       function registerErrorFn(data, status, headers, config) {
-        $.snackbar({
-          'content': data.data.message
-        });
+        Snackbar.show(data.data.message);
+        //$.snackbar({
+        //  'content': data.data.message
+        //});
       }
     }
   }
