@@ -5,12 +5,12 @@
     .module('poster.authentication.services')
     .factory('Authentication', Authentication);
 
-  Authentication.$inject = ['$http', '$rootScope', '$state', 'Snackbar'];
+  Authentication.$inject = ['$http', '$cookies', 'Snackbar'];
 
-  function Authentication($http, $rootScope, $state, Snackbar) {
+  function Authentication($http, $cookies, Snackbar) {
 
     var Authentication = {
-      getAuthenticatedAccountFromServer: getAuthenticatedAccountFromServer,
+      //getAuthenticatedAccountFromServer: getAuthenticatedAccountFromServer,
       getAuthenticatedAccount: getAuthenticatedAccount,
       isAuthenticated: isAuthenticated,
       setAuthenticatedAccount: setAuthenticatedAccount,
@@ -24,44 +24,43 @@
 
     ///////////////////
 
-    function getAuthenticatedAccountFromServer() {
-      $http.get('/api/v1/auth/session/').then(sessionSuccessFn, sessionErrorFn);
-
-      function sessionSuccessFn(data, status, headers, config) {
-        setAuthenticatedAccount(data.data)
-        //$state.go('app');
-      }
-
-      function sessionErrorFn(data, status, headers, config) {
-        setAuthenticatedAccount(null)
-      }
-    }
+    //function getAuthenticatedAccountFromServer() {
+    //  $http.get('/api/v1/auth/session/').then(sessionSuccessFn, sessionErrorFn);
+    //
+    //  function sessionSuccessFn(data, status, headers, config) {
+    //    setAuthenticatedAccount(data.data)
+    //  }
+    //
+    //  function sessionErrorFn(data, status, headers, config) {
+    //    setAuthenticatedAccount(null)
+    //  }
+    //}
 
     function getAuthenticatedAccount() {
-      //if (!$cookies.get("authenticatedAccount")) {
-      //  return;
-      //}
-      //
-      //return JSON.parse($cookies.get("authenticatedAccount"));
-      return $rootScope.user;
+      if (!$cookies.get("authenticatedAccount")) {
+        return;
+      }
+
+      return JSON.parse($cookies.get("authenticatedAccount"));
+      //return $rootScope.user;
     }
 
 
     function isAuthenticated() {
-      //return !!$cookies.get("authenticatedAccount");
-      return !!$rootScope.user;
+      return !!$cookies.get("authenticatedAccount");
+      //return !!$rootScope.user;
     }
 
     function setAuthenticatedAccount(account) {
       //$cookies.authenticatedAccount = JSON.stringify(account); THIS SHIT DON'T WORKING, HATE THIS
-      //$cookies.put("authenticatedAccount", JSON.stringify(account));
-       $rootScope.user = account;
+      $cookies.put("authenticatedAccount", JSON.stringify(account));
+      // $rootScope.user = account;
     }
 
     function unauthenticate() {
       //delete $cookies.authenticatedAccount;
-      //$cookies.remove("authenticatedAccount");
-      $rootScope.user = null;
+      $cookies.remove("authenticatedAccount");
+      //$rootScope.user = null;
     }
 
     function login(email, password) {

@@ -15,6 +15,8 @@
     $scope.account = undefined;
     $scope.username = $stateParams.username;
 
+
+
     activate();
 
     function activate() {
@@ -56,6 +58,9 @@
       Account.update($scope.username, $scope.account).then(accountSuccessFn, accountErrorFn);
 
       function accountSuccessFn(data, status, headers, config) {
+        if ($scope.username === Authentication.getAuthenticatedAccount().username)
+          Authentication.setAuthenticatedAccount(data.data);
+        window.location = '/';
         Snackbar.show('Account has been updated.');
       }
 

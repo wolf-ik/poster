@@ -32,6 +32,9 @@ class Account(AbstractBaseUser):
     email = models.EmailField(max_length=80, unique=True)
     username = models.CharField(max_length=40, unique=True)
 
+    theme = models.CharField(max_length=40, default='slate')
+    language = models.CharField(max_length=10, default='en')
+
     first_name = models.CharField(max_length=40, blank=True)
     last_name = models.CharField(max_length=40, blank=True)
     description = models.TextField(blank=True)

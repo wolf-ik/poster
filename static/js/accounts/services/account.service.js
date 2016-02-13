@@ -10,20 +10,25 @@
   function Account($http, Authentication) {
 
     var Account = {
+      isAccountOwner: isAccountOwner,
       isAccountOwnerOrAdmin: isAccountOwnerOrAdmin,
       destroy: destroy,
       get: get,
       update: update,
+      partial_update: partial_update,
     };
 
     return Account;
 
     /////////////////////
 
-    function isAccountOwnerOrAdmin(username) {
+    function isAccountOwner(username) {
       if (!Authentication.isAuthenticated()) return false;
-      var authUser = Authentication.getAuthenticatedAccount();
-      return authUser.username === username || authUser.is_admin
+      return Authentication.getAuthenticatedAccount().username === username;
+    }
+
+    function isAccountOwnerOrAdmin(username) {
+      return isAccountOwner(username) || Authentication.getAuthenticatedAccount().is_admin;
     }
 
     function destroy(username) {
@@ -37,6 +42,10 @@
 
     function update(username, account) {
       return $http.put('/api/v1/accounts/' + username + '/', account);
+    }
+
+    function partial_update(username, account) {
+      return $http.patch('/api/v1/accounts/' + username + '/', account);
     }
   }
 })();

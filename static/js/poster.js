@@ -24,7 +24,7 @@
     run.$inject = ['$http', 'Authentication'];
 
     function run($http, Authentication) {
-        Authentication.getAuthenticatedAccountFromServer();
+        //Authentication.getAuthenticatedAccountFromServer();
         $http.defaults.xsrfHeaderName = 'X-CSRFToken';
         $http.defaults.xsrfCookieName = 'csrftoken';
     }

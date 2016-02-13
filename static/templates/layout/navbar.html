@@ -1,3 +1,5 @@
+<link rel="stylesheet" type="text/css" ng-href='/static/themes/{{ account.theme }}.css' ng-show="isAuthenticated()"/>
+
 <nav class="navbar navbar-default" role="navigation">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -13,6 +15,15 @@
 
       <div class="collapse navbar-collapse" id="we-are-borg-navbar">
           <ul class="nav navbar-nav pull-right">
+
+          <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Options <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+              <li ng-repeat="theme in themes"><a href="#" ng-click="changeTheme(theme)">{{ theme }} theme</a></li>
+            <li class="divider"></li>
+              <li ng-repeat="language in languages"><a href="#" ng-click="changeLanguage(language)">{{ language }}</a></li>
+          </ul>
+
               <li ng-show="isAuthenticated()"><a ui-sref="app.accounts.detail({username: account.username})">My profile</a></li>
               <li ng-show="isAuthenticated()"><a href="javascript:void(0)" ng-click="logout()">Logout</a></li>
               <li ng-show="!isAuthenticated()"><a ui-sref="app.login">Login</a></li>
