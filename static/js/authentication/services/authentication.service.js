@@ -42,7 +42,25 @@
       }
 
       return JSON.parse($cookies.get("authenticatedAccount"));
-      //return $rootScope.user;
+
+
+      //var bytes  = CryptoJS.AES.decrypt(raw, 'mySuperSecretKey', {iv: 'aabbaabbaabbaabb'});
+      //var info = bytes.toString(CryptoJS.enc.Utf8);
+      //var bytes = Crypto.SHA256.decrypt(raw);
+      //var info = bytes.toString(CryptoJS.enc.Utf8);
+      //console.log('raw: ' + raw);
+      //console.log('bytes: ' + info);
+      //return JSON.parse(info);
+
+      //var raw = $cookies.get("authenticatedAccount");
+      //var key = CryptoJS.enc.Hex.parse('01ab38d5e05c92aa098921d9d4626107133c7e2ab0e4849558921ebcc242bcb0');
+      //var iv = CryptoJS.enc.Hex.parse('45654326565437624565432656543762');
+      //
+      //var cipher = CryptoJS.lib.CipherParams.create({
+      //      ciphertext: CryptoJS.enc.Base64.parse(raw)})
+      //
+      //var res = CryptoJS.AES.decrypt(cipher, key, {iv: iv, mode: CryptoJS.mode.CFB});
+      //return JSON.parse(res);
     }
 
 

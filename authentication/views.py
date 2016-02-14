@@ -9,6 +9,9 @@ from authentication.permissions import IsAccountOwnerOrAdmin
 from authentication.models import Account
 from authentication.serializers import AccountSerializer
 
+from Crypto.Cipher import AES
+import binascii
+
 
 class AccountViewSet(viewsets.ModelViewSet):
     lookup_field = 'username'
@@ -38,6 +41,11 @@ class AccountViewSet(viewsets.ModelViewSet):
 
 
 class LoginView(views.APIView):
+    # def pad_str(self, in_string):
+    #     in_len = len(in_string)
+    #     pad_size = 16 - (in_len % 16)
+    #     return in_string.ljust(in_len + pad_size, chr(pad_size))
+    #
     def post(self, request, format=None):
         data = json.loads(request.body)
 
@@ -51,6 +59,19 @@ class LoginView(views.APIView):
                 login(request, account)
 
                 serialized = AccountSerializer(account)
+
+                # key = binascii.a2b_hex('01ab38d5e05c92aa098921d9d4626107133c7e2ab0e4849558921ebcc242bcb0')
+                # iv = binascii.a2b_hex('45654326565437624565432656543762')
+                #
+                # obj = AES.new(key, AES.MODE_CFB, iv, segment_size=128)
+                # data = json.dumps(serialized.data)
+                # data = self.pad_str(data)
+                # # data = unicode(data)
+                # print(repr(data))
+                # ciphertext = obj.encrypt(data)
+                # bc = binascii.b2a_base64(ciphertext)
+                #
+                # print(repr(obj.decrypt(binascii.a2b_base64(bc))))
 
                 return Response(serialized.data)
             else:
