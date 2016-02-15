@@ -10,11 +10,28 @@
   function NavbarController($scope, Authentication, Account, Snackbar) {
     $scope.isAuthenticated = Authentication.isAuthenticated;
     $scope.account = Authentication.getAuthenticatedAccount();
-    $scope.logout = logout;
-    $scope.changeTheme = changeTheme;
-    $scope.changeLanguage = changeLanguage;
     $scope.themes = ['slate', 'spacelab'];
     $scope.languages = ['en', 'ru'];
+
+    $scope.getTheme = getTheme;
+    $scope.getLanguage = getLanguage;
+    $scope.changeTheme = changeTheme;
+    $scope.changeLanguage = changeLanguage;
+    $scope.logout = logout;
+
+    function getTheme() {
+      if (!$scope.account) {
+        return $scope.themes[0];
+      }
+      return $scope.account.theme;
+    }
+
+    function getLanguage() {
+      if (!$scope.account) {
+        return $scope.languages[0];
+      }
+      return $scope.account.language;
+    }
 
     function changeTheme(theme) {
       $scope.account.theme = theme;
