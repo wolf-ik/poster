@@ -12,3 +12,11 @@ class Post(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+class Comment(models.Model):
+    owner = models.ForeignKey(Account)
+    post = models.ForeignKey(Post)
+    content = models.TextField()
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)

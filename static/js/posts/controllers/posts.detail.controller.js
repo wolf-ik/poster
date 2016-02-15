@@ -5,27 +5,105 @@
         .module('poster.posts.controllers')
         .controller('PostsDetailController', PostsDetailController)
 
-    PostsDetailController.$inject = ['$scope', 'Post', 'Snackbar', '$stateParams', 'Permissions'];
+    PostsDetailController.$inject = ['$scope', 'Post', 'Comment', 'Snackbar', '$stateParams', 'Permissions'];
 
-    function PostsDetailController($scope, Post, Snackbar, $stateParams, Permissions) {
-        $scope.isAccountOwnerOrAdmin = false;
+    function PostsDetailController($scope, Post, Comment, Snackbar, $stateParams, Permissions) {
+        $scope.isAuthenticated = Permissions.isAuthenticated();
+        $scope.isPostOwnerOrAdmin = false;
+        $scope.isCommentOwnerOrAdmin = Permissions.isAccountOwnerOrAdmin;
         $scope.post = undefined;
+        $scope.comments = [];
+        $scope.newComment = '';
+        $scope.editComment = undefined;
+        $scope.editCommentIndex = 0;
+        $scope.createNewComment = createNewComment;
+        $scope.startEditComment = startEditComment;
+        $scope.saveEditComment = saveEditComment;
+        $scope.deleteComment = deleteComment;
+
+
+        function deleteComment(index) {
+            Comment.destroy($scope.comments[index].id).then(destroySuccessFn, destroyErrorFn);
+
+            function destroySuccessFn(data) {
+                $scope.comments.splice(index, 1);
+                Snackbar.show('Deleted.');
+            }
+
+            function destroyErrorFn(data) {
+                Snackbar.show(JSON.stringify(data.data));
+            }
+        }
+
+        function startEditComment(index){
+            $scope.editCommentIndex = index;
+            $scope.editComment = jQuery.extend({}, $scope.comments[index]);
+        }
+
+        function saveEditComment() {
+            Comment.update($scope.editComment.id, $scope.editComment).then(updateSuccessFn, updateErrorFn);
+
+            function updateSuccessFn(data) {
+                $scope.comments[$scope.editCommentIndex] = data.data;
+                $scope.editComment = undefined;
+                $scope.editCommentIndex = 0;
+                Snackbar.show('Updated.');
+            }
+
+            function updateErrorFn(data) {
+                Snackbar.show(JSON.stringify(data.data));
+            }
+        }
+
+        function createNewComment() {
+            Comment.create({
+                'content': $scope.newComment,
+                'post_id': $stateParams.id
+            }).then(createSuccessFn, createErrorFn);
+
+            function createSuccessFn(data) {
+                $scope.comments.push(data.data);
+                $scope.newComment = '';
+                Snackbar.show('Created!');
+            }
+
+            function createErrorFn(data) {
+                Snackbar.show(JSON.stringify(data.data));
+            }
+        }
+
+        function getCommentsForPost(id) {
+            Comment.list(id).then(getSuccessFn, getErrorFn);
+
+            function getSuccessFn(data) {
+                $scope.comments = data.data;
+            }
+
+            function getErrorFn(data) {
+                Snackbar.show(JSON.stringify(data.data));
+            }
+        }
+
+        function getPostFromId(id) {
+        Post.retrieve(id).then(getSuccessFn, getErrorFn);
+
+            function getSuccessFn(data) {
+                $scope.post = data.data;
+                $scope.isPostOwnerOrAdmin = Permissions.isAccountOwnerOrAdmin($scope.post.owner.username);
+            }
+
+            function getErrorFn(data) {
+                Snackbar.show(JSON.stringify(data.data));
+            }
+        }
 
         activate()
 
         function activate() {
             var id = $stateParams.id;
 
-            Post.retrieve(id).then(getSuccessFn, getErrorFn);
-
-            function getSuccessFn(data) {
-                $scope.post = data.data;
-                $scope.isAccountOwnerOrAdmin = Permissions.isAccountOwnerOrAdmin($scope.post.owner.username);
-            }
-
-            function getErrorFn(data) {
-                Snackbar.show(JSON.stringify(data.data));
-            }
+            getPostFromId(id);
+            getCommentsForPost(id);
         }
     }
 })();
