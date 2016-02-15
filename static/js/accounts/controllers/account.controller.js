@@ -5,18 +5,17 @@
     .module('poster.accounts.controllers')
     .controller('AccountController', AccountController);
 
-  AccountController.$inject = ['$scope', '$location', '$stateParams', 'Account', 'Snackbar'];
+  AccountController.$inject = ['$scope', '$location', '$stateParams', 'Account', 'Snackbar', 'Permissions'];
 
-  function AccountController($scope, $location, $stateParams, Account, Snackbar) {
+  function AccountController($scope, $location, $stateParams, Account, Snackbar, Permissions) {
     $scope.account = undefined;
     $scope.username = $stateParams.username;
-    $scope.isAccountOwnerOrAdmin = Account.isAccountOwnerOrAdmin($scope.username);
+    $scope.isAccountOwnerOrAdmin = Permissions.isAccountOwnerOrAdmin($scope.username);
 
     activate();
 
     function activate() {
-
-      Account.get($scope.username).then(getSuccessFn, getErrorFn);
+      Account.retrieve($scope.username).then(getSuccessFn, getErrorFn);
 
       function getSuccessFn(data, status, headers, config) {
         $scope.account = data.data;

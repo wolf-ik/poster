@@ -1,0 +1,23 @@
+<div>
+    <h1>Edit post!</h1>
+    <form role="form" class="settings" ng-submit="save()">
+        <div class="form-group">
+            <label for="post-edit__name">Name</label>
+            <input type="text" class="form-control" id="post-edit__name" ng-model="post.name"/>
+        </div>
+
+        <div class="form-group">
+            <label for="post-edit__title">Title</label>
+            <input type="text" class="form-control" id="post-edit__title" ng-model="post.title"/>
+        </div>
+
+        <div class="form-group">
+            <label for="post-edit__content">Content</label>
+            <textarea class="form-control" id="post-edit__content" ng-model="post.content"></textarea>
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-success">Save</button>
+        </div>
+    </form>
+</div>

@@ -2,6 +2,10 @@
 
 <h1 ng-show="isAuthenticated()">Hello, {{ user.username }}!</h1>
 
+<div ui-view="posts"></div>
+<div ui-view="top-posts"></div>
+<div ui-view="tag-cloud"></div>
+
 <h1>TODO:</h1>
 <ul>
     <li><strike><h2>Admin permissions to edit user settings.</h2></strike></li>

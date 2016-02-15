@@ -4,10 +4,12 @@ from django.contrib import admin
 from rest_framework_nested import routers
 
 from authentication.views import AccountViewSet, LoginView, LogoutView, CheckSession
+from post.views import PostViewSet
 from poster.views import IndexView
 
 router = routers.SimpleRouter()
 router.register(r'accounts', AccountViewSet)
+router.register(r'posts', PostViewSet)
 
 urlpatterns = [
     url(r'^api/v1/', include(router.urls)),

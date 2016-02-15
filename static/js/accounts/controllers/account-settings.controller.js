@@ -7,9 +7,10 @@
     .controller('AccountSettingsController', AccountSettingsController);
 
   AccountSettingsController.$inject = ['$scope', '$location', '$stateParams', 'Authentication', 'Account',
-                                      'Snackbar'];
+                                      'Snackbar', 'Permissions'];
 
-  function AccountSettingsController($scope, $location, $stateParams, Authentication, Account, Snackbar) {
+  function AccountSettingsController($scope, $location, $stateParams, Authentication, Account,
+                                     Snackbar, Permissions) {
     $scope.destroy = destroy;
     $scope.update = update;
     $scope.account = undefined;
@@ -20,12 +21,12 @@
     activate();
 
     function activate() {
-      if (!Account.isAccountOwnerOrAdmin($scope.username)) {
+      if (!Permissions.isAccountOwnerOrAdmin($scope.username)) {
         $location.url('/');
         Snackbar.show("Permission denied");
       }
 
-      Account.get($scope.username).then(accountSuccessFn, accountErrorFn);
+      Account.retrieve($scope.username).then(accountSuccessFn, accountErrorFn);
 
       function accountSuccessFn(data, status, headers, config) {
         $scope.account = data.data;
@@ -58,7 +59,7 @@
       Account.update($scope.username, $scope.account).then(accountSuccessFn, accountErrorFn);
 
       function accountSuccessFn(data, status, headers, config) {
-        if ($scope.username === Authentication.getAuthenticatedAccount().username)
+        if (Permissions.isAccountOwner($scope.username))
           Authentication.setAuthenticatedAccount(data.data);
         window.location = '/';
         Snackbar.show('Account has been updated.');

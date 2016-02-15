@@ -1,0 +1,9 @@
+<div>
+    <h1>Post Detail</h1>
+    <h2>{{ post.name }}</h2>
+    <h3>{{ post.title }}</h3>
+    <h4 class="well">{{ post.content }}</h4>
+    <button class="btn btn-warning" ui-sref=".edit" ng-show="isAccountOwnerOrAdmin">
+        Edit this post
+    </button>
+</div>

@@ -5,38 +5,22 @@
     .module('poster.accounts.services')
     .factory('Account', Account);
 
-  Account.$inject = ['$http', 'Authentication'];
+  Account.$inject = ['$http'];
 
-  function Account($http, Authentication) {
+  function Account($http) {
 
     var Account = {
-      isAccountOwner: isAccountOwner,
-      isAccountOwnerOrAdmin: isAccountOwnerOrAdmin,
-      destroy: destroy,
-      get: get,
+      retrieve: retrieve,
       update: update,
       partial_update: partial_update,
+      destroy: destroy,
     };
 
     return Account;
 
     /////////////////////
 
-    function isAccountOwner(username) {
-      if (!Authentication.isAuthenticated()) return false;
-      return Authentication.getAuthenticatedAccount().username === username;
-    }
-
-    function isAccountOwnerOrAdmin(username) {
-      return isAccountOwner(username) || Authentication.getAuthenticatedAccount().is_admin;
-    }
-
-    function destroy(username) {
-      return $http.delete('/api/v1/accounts/' + username + '/');
-    }
-
-
-    function get(username) {
+    function retrieve(username) {
       return $http.get('/api/v1/accounts/' + username + '/');
     }
 
@@ -46,6 +30,10 @@
 
     function partial_update(username, account) {
       return $http.patch('/api/v1/accounts/' + username + '/', account);
+    }
+
+    function destroy(username) {
+      return $http.delete('/api/v1/accounts/' + username + '/');
     }
   }
 })();

@@ -9,6 +9,7 @@
             'poster.config',
             'poster.accounts',
             'poster.utils',
+            'poster.posts',
         ]);
 
     angular

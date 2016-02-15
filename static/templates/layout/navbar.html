@@ -1,9 +1,10 @@
+<link rel="stylesheet" type="text/css" ng-href='/static/themes/slate.css' ng-show="isAuthenticated()"/>
 <link rel="stylesheet" type="text/css" ng-href='/static/themes/{{ account.theme }}.css' ng-show="isAuthenticated()"/>
 
 <nav class="navbar navbar-default" role="navigation">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" ui-sref="app">Poster</a>
+      <a class="navbar-brand" ui-sref="app.home">Poster</a>
     </div>
 
        <form class="navbar-form navbar-left" style="margin-left: 100px" role="search">
