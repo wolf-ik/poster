@@ -91,6 +91,16 @@
           }
         })
 
+        .state('app.search', {
+          url: 'search/{query}',
+          views: {
+            'content@': {
+              templateUrl: '/static/templates/layout/search.html',
+              controller: 'SearchController',
+            }
+          }
+        })
+
         .state('app.posts', {
           url: 'posts',
           abstract: true,

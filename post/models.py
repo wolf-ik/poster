@@ -1,6 +1,8 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from djangosphinx import SphinxSearch
+
 from authentication.models import Account
 
 
@@ -12,6 +14,8 @@ class Post(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    search = SphinxSearch('post')
 
 class Comment(models.Model):
     owner = models.ForeignKey(Account)

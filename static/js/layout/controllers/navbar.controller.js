@@ -12,12 +12,14 @@
     $scope.account = Authentication.getAuthenticatedAccount();
     $scope.themes = ['slate', 'spacelab'];
     $scope.languages = ['en', 'ru'];
+    $scope.searchQuery = '';
 
     $scope.getTheme = getTheme;
     $scope.getLanguage = getLanguage;
     $scope.changeTheme = changeTheme;
     $scope.changeLanguage = changeLanguage;
     $scope.logout = logout;
+
 
     function getTheme() {
       if (!$scope.account) {

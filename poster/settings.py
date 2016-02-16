@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'authentication',
     'post',
+    'djangosphinx',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -138,3 +139,7 @@ REST_FRAMEWORK = {
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 AUTH_USER_MODEL = 'authentication.Account'
+
+SPHINX_API_VERSION = 0x116
+SPHINX_PORT = 9312
+SPHINX_SERVER = '127.0.0.1'
