@@ -3,9 +3,14 @@
     <h2>{{ post.name }}</h2>
     <h3>{{ post.title }}</h3>
     <h4 class="well">{{ post.content }}</h4>
-    <button class="btn btn-warning" ui-sref=".edit" ng-show="isPostOwnerOrAdmin">
-        Edit this post
-    </button><br>
+    <div ng-show="isPostOwnerOrAdmin">
+        <button class="btn btn-warning" ui-sref=".edit">
+            Edit this post
+        </button>
+        <button class="btn btn-danger" ng-click="deletePost()">
+            Delete this post
+        </button><br>
+    </div>
     <div class="col-md-4">
         <h2>Comments block</h2>
         <div class="well" ng-repeat="comment in comments">

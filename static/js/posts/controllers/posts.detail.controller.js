@@ -5,9 +5,9 @@
         .module('poster.posts.controllers')
         .controller('PostsDetailController', PostsDetailController)
 
-    PostsDetailController.$inject = ['$scope', 'Post', 'Comment', 'Snackbar', '$stateParams', 'Permissions'];
+    PostsDetailController.$inject = ['$scope', 'Post', 'Comment', 'Snackbar', '$stateParams', '$state', 'Permissions'];
 
-    function PostsDetailController($scope, Post, Comment, Snackbar, $stateParams, Permissions) {
+    function PostsDetailController($scope, Post, Comment, Snackbar, $stateParams, $state, Permissions) {
         $scope.isAuthenticated = Permissions.isAuthenticated();
         $scope.isPostOwnerOrAdmin = false;
         $scope.isCommentOwnerOrAdmin = Permissions.isAccountOwnerOrAdmin;
@@ -20,17 +20,22 @@
         $scope.startEditComment = startEditComment;
         $scope.saveEditComment = saveEditComment;
         $scope.deleteComment = deleteComment;
+        $scope.deletePost = deletePost;
 
 
-        function deleteComment(index) {
-            Comment.destroy($scope.comments[index].id).then(destroySuccessFn, destroyErrorFn);
+        function createNewComment() {
+            Comment.create({
+                'content': $scope.newComment,
+                'post_id': $stateParams.id
+            }).then(createSuccessFn, createErrorFn);
 
-            function destroySuccessFn(data) {
-                $scope.comments.splice(index, 1);
-                Snackbar.show('Deleted.');
+            function createSuccessFn(data) {
+                $scope.comments.push(data.data);
+                $scope.newComment = '';
+                Snackbar.show('Created!');
             }
 
-            function destroyErrorFn(data) {
+            function createErrorFn(data) {
                 Snackbar.show(JSON.stringify(data.data));
             }
         }
@@ -55,19 +60,41 @@
             }
         }
 
-        function createNewComment() {
-            Comment.create({
-                'content': $scope.newComment,
-                'post_id': $stateParams.id
-            }).then(createSuccessFn, createErrorFn);
+        function deleteComment(index) {
+            Comment.destroy($scope.comments[index].id).then(destroySuccessFn, destroyErrorFn);
 
-            function createSuccessFn(data) {
-                $scope.comments.push(data.data);
-                $scope.newComment = '';
-                Snackbar.show('Created!');
+            function destroySuccessFn(data) {
+                $scope.comments.splice(index, 1);
+                Snackbar.show('Deleted.');
             }
 
-            function createErrorFn(data) {
+            function destroyErrorFn(data) {
+                Snackbar.show(JSON.stringify(data.data));
+            }
+        }
+
+        function deletePost() {
+            Post.destroy($stateParams.id).then(destroySuccessFn, destroyErrorFn)
+
+            function destroySuccessFn(data) {
+                $state.go('app.home');
+                Snackbar.show('Deleted.');
+            }
+
+            function destroyErrorFn(data) {
+                Snackbar.show(JSON.stringify(data.data));
+            }
+        }
+
+        function getPostFromId(id) {
+            Post.retrieve(id).then(getSuccessFn, getErrorFn);
+
+            function getSuccessFn(data) {
+                $scope.post = data.data;
+                $scope.isPostOwnerOrAdmin = Permissions.isAccountOwnerOrAdmin($scope.post.owner.username);
+            }
+
+            function getErrorFn(data) {
                 Snackbar.show(JSON.stringify(data.data));
             }
         }
@@ -84,18 +111,6 @@
             }
         }
 
-        function getPostFromId(id) {
-        Post.retrieve(id).then(getSuccessFn, getErrorFn);
-
-            function getSuccessFn(data) {
-                $scope.post = data.data;
-                $scope.isPostOwnerOrAdmin = Permissions.isAccountOwnerOrAdmin($scope.post.owner.username);
-            }
-
-            function getErrorFn(data) {
-                Snackbar.show(JSON.stringify(data.data));
-            }
-        }
 
         activate()
 
