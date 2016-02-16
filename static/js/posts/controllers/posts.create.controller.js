@@ -8,10 +8,12 @@
     PostsCreateController.$inject = ['$scope', 'Post', 'Snackbar', '$state', 'Permissions'];
 
     function PostsCreateController($scope, Post, Snackbar, $state, Permissions) {
-        $scope.post = undefined;
+        $scope.post = {content: ''};
         $scope.save = save;
+        $scope.ck = CKEDITOR.replace('post-edit__content');
 
         function save() {
+            $scope.post.content = $scope.ck.getData();
             Post.create($scope.post).then(postSuccessFn, postErrorFn);
 
             function postSuccessFn(data) {

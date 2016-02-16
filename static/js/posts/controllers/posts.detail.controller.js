@@ -5,9 +5,10 @@
         .module('poster.posts.controllers')
         .controller('PostsDetailController', PostsDetailController)
 
-    PostsDetailController.$inject = ['$scope', 'Post', 'Comment', 'Snackbar', '$stateParams', '$state', 'Permissions'];
+    PostsDetailController.$inject = ['$scope', '$sce', 'Post', 'Comment', 'Snackbar', '$stateParams', '$state', 'Permissions'];
 
-    function PostsDetailController($scope, Post, Comment, Snackbar, $stateParams, $state, Permissions) {
+    function PostsDetailController($scope, $sce, Post, Comment, Snackbar, $stateParams, $state, Permissions) {
+        $scope.sce = $sce;
         $scope.isAuthenticated = Permissions.isAuthenticated();
         $scope.isPostOwnerOrAdmin = false;
         $scope.isCommentOwnerOrAdmin = Permissions.isAccountOwnerOrAdmin;
