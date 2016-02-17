@@ -17,10 +17,17 @@ class Post(models.Model):
 
     search = SphinxSearch('post')
 
+
+class Like(models.Model):
+    owner = models.ForeignKey(Account)
+
+
 class Comment(models.Model):
     owner = models.ForeignKey(Account)
     post = models.ForeignKey(Post)
     content = models.TextField()
+
+    likes = models.ManyToManyField(Like)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
