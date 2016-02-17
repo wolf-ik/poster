@@ -5,9 +5,9 @@
         .module('poster.posts.controllers')
         .controller('PostsDetailController', PostsDetailController)
 
-    PostsDetailController.$inject = ['$http', '$scope', '$sce', 'Post', 'Comment', 'Snackbar', '$stateParams', '$state', 'Permissions', 'Authentication'];
+    PostsDetailController.$inject = ['$scope', '$sce', 'Post', 'Comment', 'Snackbar', '$stateParams', '$state', 'Permissions', 'Like'];
 
-    function PostsDetailController($http, $scope, $sce, Post, Comment, Snackbar, $stateParams, $state, Permissions, Authentication) {
+    function PostsDetailController($scope, $sce, Post, Comment, Snackbar, $stateParams, $state, Permissions, Like) {
         $scope.sce = $sce;
         $scope.isAuthenticated = Permissions.isAuthenticated();
         $scope.isPostOwnerOrAdmin = false;
@@ -115,50 +115,16 @@
             }
         }
 
-        function findLikeIndexFromUserId(likes, user_id){
-            for (var i = 0; i < likes.length; i++) {
-                if (likes[i].owner == user_id) return i;
-            }
-            return -1;
-        }
-
         function showLike(index) {
-            if (!$scope.isAuthenticated) return false;
-            var user_id = Authentication.getAuthenticatedAccount().id;
-            var likes = $scope.comments[index].likes;
-            if (findLikeIndexFromUserId(likes, user_id) == -1) return true;
-            return false;
-
-
+            return Like.showLike($scope.comments[index].likes);
         }
 
         function like(index) {
-            $http.post('/api/v1/likes/', {
-                comment_id: $scope.comments[index].id,
-            }).then(likeSuccessFn, likeErrorFn);
-
-            function likeSuccessFn(data) {
-                $scope.comments[index].likes.push(data.data);
-            }
-
-            function likeErrorFn(data) {
-                Snackbar.show(JSON.stringify(data.data));
-            }
+            Like.like($scope.comments[index].likes, $scope.comments[index].id);
         }
 
         function unlike(index) {
-            var user_id = Authentication.getAuthenticatedAccount().id;
-            var likes = $scope.comments[index].likes;
-            var likeIndex = findLikeIndexFromUserId(likes, user_id);
-            $http.delete('/api/v1/likes/' + likes[likeIndex].id + '/').then(deleteSuccessFn, deleteErrorFn);
-
-            function deleteSuccessFn(data) {
-                likes.splice(likeIndex, 1);
-            }
-
-            function deleteErrorFn(data) {
-                Snackbar.show(JSON.stringify(data.data));
-            }
+            Like.unlike($scope.comments[index].likes);
         }
 
 
