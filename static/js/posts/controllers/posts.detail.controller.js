@@ -5,9 +5,9 @@
         .module('poster.posts.controllers')
         .controller('PostsDetailController', PostsDetailController)
 
-    PostsDetailController.$inject = ['$scope', '$sce', 'Post', 'Comment', 'Snackbar', '$stateParams', '$state', 'Permissions', 'Like'];
+    PostsDetailController.$inject = ['Authentication', '$http', '$scope', '$sce', 'Post', 'Comment', 'Snackbar', '$stateParams', '$state', 'Permissions', 'Like'];
 
-    function PostsDetailController($scope, $sce, Post, Comment, Snackbar, $stateParams, $state, Permissions, Like) {
+    function PostsDetailController(Authentication, $http, $scope, $sce, Post, Comment, Snackbar, $stateParams, $state, Permissions, Like) {
         $scope.sce = $sce;
         $scope.isAuthenticated = Permissions.isAuthenticated();
         $scope.isPostOwnerOrAdmin = false;
@@ -25,6 +25,8 @@
         $scope.showLike = showLike;
         $scope.like = like;
         $scope.unlike = unlike;
+        $scope.setRating = setRating;
+        $scope.canPostRating = false;
 
 
         function createNewComment() {
@@ -96,6 +98,7 @@
             function getSuccessFn(data) {
                 $scope.post = data.data;
                 $scope.isPostOwnerOrAdmin = Permissions.isAccountOwnerOrAdmin($scope.post.owner.username);
+                $scope.canPostRating = canPostRating();
             }
 
             function getErrorFn(data) {
@@ -125,6 +128,36 @@
 
         function unlike(index) {
             Like.unlike($scope.comments[index].likes);
+        }
+
+        function setRating(value) {
+            $http.post('/api/v1/ratings/', {
+                post_id: $scope.post.id,
+                value: value,
+            }).then(postSuccessFn, postErrorFn);
+
+            function postSuccessFn(data) {
+                var rating = $scope.post.rating;
+                var count = $scope.post.ratings_count;
+                var newRating = (rating * count + value) / (count + 1);
+                $scope.post.rating = newRating;
+                $scope.post.ratings_count += 1;
+                $scope.canPostRating = false;
+            }
+
+            function postErrorFn(data) {
+                Snackbar.show(JSON.stringify(data.data));
+            }
+        }
+
+        function canPostRating() {
+            if (!$scope.isAuthenticated) return false;
+            var user_id = Authentication.getAuthenticatedAccount().id;
+            var ratings = $scope.post.ratings;
+            for (var i in ratings) {
+                if (ratings[i].owner == user_id) return false;
+            }
+            return true;
         }
 
 

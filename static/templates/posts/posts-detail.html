@@ -2,6 +2,14 @@
     <h1>Post Detail</h1>
     <h2>{{ post.name }}</h2>
     <h3>{{ post.title }}</h3>
+    <div class="well">
+        <h3>Rating: {{ post.rating }}</h3>
+        <div ng-show="canPostRating">
+        <button class="btn btn-success btn-small" ng-click="setRating(value)" ng-repeat="value in [1,2,3,4,5]">
+            {{ $index + 1 }}
+        </button>
+        </div>
+    </div>
     <div class="well" ng-bind-html="sce.trustAsHtml(post.content)"></div>
     <div ng-show="isPostOwnerOrAdmin">
         <button class="btn btn-warning" ui-sref=".edit">

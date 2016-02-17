@@ -6,21 +6,32 @@ from djangosphinx import SphinxSearch
 from authentication.models import Account
 
 
+class Like(models.Model):
+    owner = models.ForeignKey(Account)
+    target = models.ForeignKey(Account, related_name='like_target')
+
+
+class Rating(models.Model):
+    owner = models.ForeignKey(Account)
+    target = models.ForeignKey(Account, related_name='rating_target')
+
+    value = models.IntegerField()
+
+
 class Post(models.Model):
     owner = models.ForeignKey(Account)
     name = models.CharField(max_length=100)
     title = models.CharField(max_length=300)
     content = models.TextField()
 
+    rating = models.FloatField(default=0)
+    ratings_count = models.IntegerField(default=0)
+    ratings = models.ManyToManyField(Rating)
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     search = SphinxSearch('post')
-
-
-class Like(models.Model):
-    owner = models.ForeignKey(Account)
-    target = models.ForeignKey(Account, related_name='like_target')
 
 
 class Comment(models.Model):
