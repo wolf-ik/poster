@@ -15,7 +15,16 @@
         <h2>Comments block</h2>
         <div class="well" ng-repeat="comment in comments">
             {{ comment.content }}<br>
-            <div ng-show="isCommentOwnerOrAdmin(comment.owner.username)">
+            Likes: {{ comment.likes.length }}
+            <div class="left" ng-show="isAuthenticated">
+                <button class="btn btn-info btn-small" ng-click="like($index)" ng-show="showLike($index)">
+                    Like me
+                </button>
+                <button class="btn btn-warning btn-small" ng-click="unlike($index)" ng-show="!showLike($index)">
+                    Unlike me
+                </button>
+            </div>
+            <div class="right" ng-show="isCommentOwnerOrAdmin(comment.owner.username)">
                 <button class="btn btn-info btn-small" ng-click="startEditComment($index)" data-toggle="modal" data-target="#edit-comment-modal-id">
                     Edit
                 </button>

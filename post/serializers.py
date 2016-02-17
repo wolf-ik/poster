@@ -23,4 +23,4 @@ class LikeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Like
         fields = ('id', 'owner')
-        depth = 1
+        depth = 0
