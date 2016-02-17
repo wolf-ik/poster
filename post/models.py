@@ -20,6 +20,7 @@ class Post(models.Model):
 
 class Like(models.Model):
     owner = models.ForeignKey(Account)
+    target = models.ForeignKey(Account, related_name='like_target')
 
 
 class Comment(models.Model):

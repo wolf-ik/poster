@@ -51,7 +51,7 @@ class LikeViewSet(mixins.CreateModelMixin,
         try:
             comment.likes.get(owner=user)
         except:
-            like = comment.likes.create(owner=user)
+            like = comment.likes.create(owner=user, target=comment.owner)
             serialized = LikeSerializer(like)
             return Response(serialized.data, status=status.HTTP_201_CREATED)
 
