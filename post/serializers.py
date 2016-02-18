@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+from authentication.serializers import AccountSerializer
 from post.models import Post, Comment, Like, Rating, Tag
 
 
@@ -7,7 +8,18 @@ class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
         fields = ('id', 'text')
-        depth = 0
+
+
+class LikeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Like
+        fields = ('id', 'owner')
+
+
+class RatingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Rating
+        fields = ('id', 'owner', 'value')
 
 
 class PostSerializer(serializers.ModelSerializer):
@@ -16,27 +28,30 @@ class PostSerializer(serializers.ModelSerializer):
         fields = ('id', 'owner', 'name', 'title', 'content',
                   'ratings', 'rating', 'ratings_count', 'tags',
                   'created_at', 'updated_at')
-        read_only_fields = ('created_at', 'updated_at')
+        read_only_fields = ('id', 'created_at', 'updated_at')
         depth = 1
+
+
+class PostShowSerializer(PostSerializer):
+    owner = AccountSerializer()
+    ratings = RatingSerializer(many=True)
+    tags = TagSerializer(many=True)
+
+    class Meta(PostSerializer.Meta):
+        depth = 0
 
 
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = ('id', 'owner', 'likes', 'post', 'content', 'created_at', 'updated_at')
-        read_only_fields = ('created_at', 'updated_at')
+        read_only_fields = ('id', 'created_at', 'updated_at')
         depth = 1
 
 
-class LikeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Like
-        fields = ('id', 'owner')
-        depth = 0
+class CommentShowSerializer(CommentSerializer):
+    owner = AccountSerializer()
+    likes = LikeSerializer(many=True)
 
-
-class RatingSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Rating
-        fields = ('id', 'owner', 'value')
+    class Meta(CommentSerializer.Meta):
         depth = 0

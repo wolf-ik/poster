@@ -15,7 +15,8 @@ class AccountSerializer(serializers.ModelSerializer):
                   'first_name', 'last_name', 'description', 'interests',
                   'best_quote','is_admin' , 'password', 'confirm_password',
                   'theme', 'language', 'achievements',)
-        read_only_fields = ('created_at', 'updated_at', 'achievements',)
+        read_only_fields = ('id', 'created_at', 'updated_at', 'achievements',)
+        write_only_fields = ('password', 'confirm_password',)
         depth = 1
 
     def create(self, validated_data):

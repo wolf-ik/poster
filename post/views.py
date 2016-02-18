@@ -2,7 +2,8 @@ from rest_framework import viewsets, permissions, mixins, status
 from rest_framework.response import Response
 
 from post.models import Post, Comment, Like, Rating, Tag
-from post.serializers import PostSerializer, CommentSerializer, LikeSerializer, RatingSerializer, TagSerializer
+from post.serializers import PostSerializer, CommentSerializer, LikeSerializer, RatingSerializer, TagSerializer, \
+    PostShowSerializer, CommentShowSerializer
 from post.permissions import IsObjectOwnerOrAdmin
 
 
@@ -28,12 +29,19 @@ class PostViewSet(viewsets.ModelViewSet):
         l = map(foo, tags)
         return l
 
+    def list(self, request, *args, **kwargs):
+        self.serializer_class = PostShowSerializer
+        return super(PostViewSet, self).list(request, *args, **kwargs)
+
+    def retrieve(self, request, *args, **kwargs):
+        self.serializer_class = PostShowSerializer
+        return super(PostViewSet, self).retrieve(request, *args, **kwargs)
+
     def perform_create(self, serializer):
         tags = self.get_list_tags(self.request.data.get('tags', ''))
         post = serializer.save(owner=self.request.user)
         for tag in tags:
             post.tags.add(tag)
-        #return super(PostViewSet, self).perform_create(serializer)
 
     def perform_update(self, serializer):
         tags = self.get_list_tags(self.request.data.get('tags', ''))
@@ -41,7 +49,6 @@ class PostViewSet(viewsets.ModelViewSet):
         post.tags.clear()
         for tag in tags:
             post.tags.add(tag)
-        #return super(PostViewSet, self).perform_update(serializer)
 
 
 class CommentViewSet(viewsets.ModelViewSet):
@@ -49,7 +56,12 @@ class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsObjectOwnerOrAdmin)
 
+    def retrieve(self, request, *args, **kwargs):
+        self.serializer_class = CommentShowSerializer
+        return super(CommentViewSet, self).retrieve(request, *args, **kwargs)
+
     def list(self, request, *args, **kwargs):
+        self.serializer_class = CommentShowSerializer
         post_id = request.query_params.get('post_id', None)
         self.queryset = Comment.objects.filter(post_id=post_id)
         return super(CommentViewSet, self).list(request, *args, **kwargs)
@@ -57,7 +69,6 @@ class CommentViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         post = Post.objects.get(id=self.request.data.get('post_id', None))
         serializer.save(owner=self.request.user, post=post)
-        #return super(CommentViewSet, self).perform_create(serializer)
 
 
 class LikeViewSet(mixins.CreateModelMixin,
