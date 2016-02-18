@@ -6,6 +6,10 @@ from djangosphinx import SphinxSearch
 from authentication.models import Account
 
 
+class Tag(models.Model):
+    text = models.CharField(max_length=30, unique=True)
+
+
 class Like(models.Model):
     owner = models.ForeignKey(Account)
     target = models.ForeignKey(Account, related_name='like_target')
@@ -27,6 +31,8 @@ class Post(models.Model):
     rating = models.FloatField(default=0)
     ratings_count = models.IntegerField(default=0)
     ratings = models.ManyToManyField(Rating)
+
+    tags = models.ManyToManyField(Tag)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

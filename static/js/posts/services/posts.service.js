@@ -5,9 +5,9 @@
     .module('poster.posts.services')
     .factory('Post', Post);
 
-  Post.$inject = ['$http'];
+  Post.$inject = ['$http', 'Snackbar'];
 
-  function Post($http) {
+  function Post($http, Snackbar) {
 
     var Post = {
       list: list,
@@ -16,6 +16,7 @@
       update: update,
       partial_update: partial_update,
       destroy: destroy,
+      loadTagList: loadTagList,
     };
 
     return Post;
@@ -44,6 +45,20 @@
 
     function destroy(id) {
       return $http.delete('/api/v1/posts/' + id + '/');
+    }
+
+    function loadTagList(tagList) {
+      $http.get('/api/v1/tags/').then(getSuccessFn, getErrorFn);
+
+      function getSuccessFn(data) {
+        for (var i in data.data) {
+          tagList.push(data.data[i]);
+        }
+      }
+
+      function getErrorFn(data) {
+        Snackbar.show(JSON.stringify(data.data));
+      }
     }
   }
 })();

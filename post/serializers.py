@@ -1,13 +1,20 @@
 from rest_framework import serializers
 
-from post.models import Post, Comment, Like, Rating
+from post.models import Post, Comment, Like, Rating, Tag
+
+
+class TagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tag
+        fields = ('id', 'text')
+        depth = 0
 
 
 class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = ('id', 'owner', 'name', 'title', 'content',
-                  'ratings', 'rating', 'ratings_count',
+                  'ratings', 'rating', 'ratings_count', 'tags',
                   'created_at', 'updated_at')
         read_only_fields = ('created_at', 'updated_at')
         depth = 1

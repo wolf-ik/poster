@@ -10,6 +10,7 @@
             'poster.accounts',
             'poster.utils',
             'poster.posts',
+            'ngTagsInput',
         ]);
 
     angular

@@ -11,6 +11,19 @@
             <input type="text" class="form-control" id="post-edit__title" ng-model="post.title"/>
         </div>
 
+        <tags-input
+                ng-model="post.tags"
+                replace-spaces-with-dashes="false"
+                display-property="text">
+            <auto-complete
+                    source="loadTags($query)"
+                    min-length="0"
+                    load-on-focus="true"
+                    load-on-empty="true"
+                    max-results-to-show="20">
+            </auto-complete>
+        </tags-input>
+
         <div class="form-group">
             <label for="post-edit__content">Content</label>
             <textarea class="form-control" id="post-edit__content" ng-model="post.content"></textarea>

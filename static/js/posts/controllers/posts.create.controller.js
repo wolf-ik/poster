@@ -9,7 +9,9 @@
 
     function PostsCreateController($scope, Post, Snackbar, $state, Permissions) {
         $scope.post = {content: ''};
+        $scope.tagList = [];
         $scope.save = save;
+        $scope.loadTags = loadTags;
         $scope.ck = CKEDITOR.replace('post-edit__content');
 
         function save() {
@@ -27,6 +29,13 @@
             }
         }
 
+        function loadTags(q) {
+            if (!$scope.tagList) return false;
+            return $scope.tagList.filter(function(tag) {
+                return tag.text.toLowerCase().indexOf(q.toLowerCase()) != -1;
+            });
+        }
+
 
         activate()
 
@@ -35,6 +44,8 @@
                 $state.go('app.home');
                 Snackbar.show('You need LogIn or SignUp.');
             }
+            Post.loadTagList($scope.tagList);
+
         }
     }
 })();

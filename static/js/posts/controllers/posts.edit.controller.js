@@ -9,8 +9,9 @@
 
     function PostsEditController($scope, Post, Snackbar, $state, $stateParams, Permissions) {
         $scope.post = undefined;
+        $scope.tagList = [];
         $scope.save = save;
-        $scope.ck = CKEDITOR.replace('post-edit__content');
+        $scope.loadTags = loadTags;
 
         function save() {
             $scope.post.content = $scope.ck.getData();
@@ -32,6 +33,7 @@
 
             function getSuccessFn(data) {
                 $scope.post = data.data;
+                $scope.ck = CKEDITOR.replace('post-edit__content');
                 $scope.ck.setData($scope.post.content);
                 if (!Permissions.isAccountOwnerOrAdmin($scope.post.owner.username)) {
                     $state.go('app.home');
@@ -44,6 +46,14 @@
             }
         }
 
+        function loadTags(q) {
+            if (!$scope.tagList) return false;
+            return $scope.tagList.filter(function(tag) {
+                return tag.text.toLowerCase().indexOf(q.toLowerCase()) != -1;
+            });
+        }
+
+
 
         activate()
 
@@ -51,6 +61,7 @@
             var id = $stateParams.id;
 
             getPostFromId(id);
+            Post.loadTagList($scope.tagList);
         }
     }
 })();

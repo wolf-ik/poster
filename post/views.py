@@ -1,9 +1,16 @@
 from rest_framework import viewsets, permissions, mixins, status
 from rest_framework.response import Response
 
-from post.models import Post, Comment, Like, Rating
-from post.serializers import PostSerializer, CommentSerializer, LikeSerializer, RatingSerializer
+from post.models import Post, Comment, Like, Rating, Tag
+from post.serializers import PostSerializer, CommentSerializer, LikeSerializer, RatingSerializer, TagSerializer
 from post.permissions import IsObjectOwnerOrAdmin
+
+
+class TagViewSet(mixins.ListModelMixin,
+                 viewsets.GenericViewSet):
+    queryset = Tag.objects.all()
+    serializer_class = TagSerializer
+    permission_classes = (permissions.AllowAny,)
 
 
 class PostViewSet(viewsets.ModelViewSet):
@@ -11,9 +18,32 @@ class PostViewSet(viewsets.ModelViewSet):
     serializer_class = PostSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsObjectOwnerOrAdmin)
 
+    @staticmethod
+    def get_list_tags(tags):
+        def foo(tag):
+            obj, created = Tag.objects.get_or_create(text=tag.get('text', None))
+            return obj
+
+        assert(isinstance(tags, list))
+        l = map(foo, tags)
+        return l
+
     def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
+        tags = self.get_list_tags(self.request.data.get('tags', ''))
+        post = serializer.save(owner=self.request.user)
+        for tag in tags:
+            post.tags.add(tag)
         return super(PostViewSet, self).perform_create(serializer)
+
+    def perform_update(self, serializer):
+        tags = self.get_list_tags(self.request.data.get('tags', ''))
+        post = serializer.save()
+        post.tags.clear()
+        for tag in tags:
+            post.tags.add(tag)
+        return super(PostViewSet, self).perform_update(serializer)
+
+
 
 
 class CommentViewSet(viewsets.ModelViewSet):
