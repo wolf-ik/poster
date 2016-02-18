@@ -5,9 +5,9 @@
     .module('poster.posts.services')
     .factory('Like', Like);
 
-  Like.$inject = ['$http', 'Authentication'];
+  Like.$inject = ['$http', 'Authentication', 'Snackbar'];
 
-  function Like($http, Authentication) {
+  function Like($http, Authentication, Snackbar) {
 
     var Like = {
         showLike: showLike,

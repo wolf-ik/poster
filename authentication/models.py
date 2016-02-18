@@ -41,6 +41,8 @@ class Account(AbstractBaseUser):
     interests = models.TextField(blank=True)
     best_quote = models.TextField(blank=True)
 
+    achievements = models.ManyToManyField('post.Achievement')
+
     is_admin = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
 

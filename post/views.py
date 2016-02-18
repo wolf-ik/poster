@@ -33,7 +33,7 @@ class PostViewSet(viewsets.ModelViewSet):
         post = serializer.save(owner=self.request.user)
         for tag in tags:
             post.tags.add(tag)
-        return super(PostViewSet, self).perform_create(serializer)
+        #return super(PostViewSet, self).perform_create(serializer)
 
     def perform_update(self, serializer):
         tags = self.get_list_tags(self.request.data.get('tags', ''))
@@ -41,9 +41,7 @@ class PostViewSet(viewsets.ModelViewSet):
         post.tags.clear()
         for tag in tags:
             post.tags.add(tag)
-        return super(PostViewSet, self).perform_update(serializer)
-
-
+        #return super(PostViewSet, self).perform_update(serializer)
 
 
 class CommentViewSet(viewsets.ModelViewSet):
@@ -58,9 +56,8 @@ class CommentViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         post = Post.objects.get(id=self.request.data.get('post_id', None))
-        serializer.save(owner=self.request.user,
-                        post=post)
-        return super(CommentViewSet, self).perform_create(serializer)
+        serializer.save(owner=self.request.user, post=post)
+        #return super(CommentViewSet, self).perform_create(serializer)
 
 
 class LikeViewSet(mixins.CreateModelMixin,
@@ -94,6 +91,15 @@ class RatingViewSet(mixins.CreateModelMixin,
     serializer_class = RatingSerializer
     permission_classes = (permissions.IsAuthenticated,)
 
+    @staticmethod
+    def recalc_post_rating(post, value):
+        rating = post.rating
+        count = post.ratings_count
+        new_rating = (rating * count + value) / (count + 1)
+        post.rating = new_rating
+        post.ratings_count = count + 1
+        post.save()
+
     def create(self, request, *args, **kwargs):
         user = request.user
         post_id = request.data.get('post_id', None)
@@ -112,11 +118,3 @@ class RatingViewSet(mixins.CreateModelMixin,
             return Response(serialized.data, status=status.HTTP_201_CREATED)
 
         return Response({'detail': 'Already rated.'}, status=status.HTTP_400_BAD_REQUEST)
-
-    def recalc_post_rating(self, post, value):
-        rating = post.rating
-        count = post.ratings_count
-        new_rating = (rating * count + value) / (count + 1)
-        post.rating = new_rating
-        post.ratings_count = count + 1
-        post.save()

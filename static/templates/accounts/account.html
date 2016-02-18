@@ -13,6 +13,11 @@
             Interests: {{ account.interests }}
         </div>
 
+        <div class="well">
+            Achivements:
+            <h3 ng-repeat="ach in account.achievements">{{ ach.title }}</h3>
+        </div>
+
         <a ui-sref=".settings" class="btn btn-info" ng-show="isAccountOwnerOrAdmin">edit</a>
     </div>
 </div>
