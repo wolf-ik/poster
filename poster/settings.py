@@ -25,6 +25,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'social.apps.django_app.default',
+    'rest_social_auth',
     'compressor',
     'rest_framework',
     'authentication',
@@ -143,3 +145,27 @@ AUTH_USER_MODEL = 'authentication.Account'
 SPHINX_API_VERSION = 0x116
 SPHINX_PORT = 9312
 SPHINX_SERVER = '127.0.0.1'
+
+SOCIAL_AUTH_FACEBOOK_KEY = '1667998946784328'
+SOCIAL_AUTH_FACEBOOK_SECRET = '7ae1464fe1dcea9a92db0e64b107c00e'
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+
+SOCIAL_AUTH_TWITTER_KEY = 'xspzddY58kqJi5eYTxtxqdUgY'
+SOCIAL_AUTH_TWITTER_SECRET = 'iKYqQ9dVTgtSa7zUryIlxU7hm4z1AbPF7YVy4GRkL2iiMTb8tI'
+SOCIAL_AUTH_TWITTER_SCOPE = ['email']
+
+SOCIAL_AUTH_VK_OAUTH2_KEY = '5304589'
+SOCIAL_AUTH_VK_OAUTH2_SECRET = 'f6moZ2Q6P6GkDzdwikMX'
+SOCIAL_AUTH_VK_OAUTH2_SCOPE = ['email']
+
+AUTHENTICATION_BACKENDS = (
+    'social.backends.facebook.FacebookOAuth2',
+    'social.backends.twitter.TwitterOAuth',
+    'social.backends.vk.VKOAuth2',
+
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+# REST_AUTH_SERIALIZERS = {
+#     'USER_DETAILS_SERIALIZER': 'authentication.serializers.AccountSerializer',
+# }

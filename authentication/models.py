@@ -1,11 +1,16 @@
+import datetime
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db import models
 
 
 class AccountManager(BaseUserManager):
     def create_user(self, email, password=None, **kwargs):
+        def random_email():
+            return "and.last.random.email.for.fucking.vk@ya.ru"
+
         if not email:
-            raise ValueError('Users must have a valid email address.')
+            email = random_email()
+            # raise ValueError('Users must have a valid email address.')
 
         if not kwargs.get('username'):
             raise ValueError('Users must have a valid username.')
@@ -22,7 +27,7 @@ class AccountManager(BaseUserManager):
     def create_superuser(self, email, password, **kwargs):
         account = self.create_user(email, password, **kwargs)
 
-        account.is_admin = True
+        account.is_staff = True
         account.save()
 
         return account
@@ -41,9 +46,14 @@ class Account(AbstractBaseUser):
     interests = models.TextField(blank=True)
     best_quote = models.TextField(blank=True)
 
+    date_joined = models.DateTimeField(auto_now_add=True)
+    user_permissions = models.TextField(blank=True)
+    groups = models.TextField(blank=True)
+    is_superuser = models.BooleanField(default=False)
+
     achievements = models.ManyToManyField('post.Achievement')
 
-    is_admin = models.BooleanField(default=False)
+    is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
@@ -69,6 +79,6 @@ class Account(AbstractBaseUser):
     def has_module_perms(self, app_label):
         return True
 
-    @property
-    def is_staff(self):
-        return self.is_admin
+    # @property
+    # def is_staff(self):
+    #     return self.is_admin

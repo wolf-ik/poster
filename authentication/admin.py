@@ -7,13 +7,12 @@ from authentication.models import Account
 
 class AccountAdmin(UserAdmin):
 
-
-    list_display = ('email', 'username', 'is_admin',)
-    list_filter = ('is_admin',)
+    list_display = ('email', 'username', 'is_staff',)
+    list_filter = ('is_staff',)
     fieldsets = (
         (None, {'fields': ('email', 'username', 'password')}),
         ('Personal info', {'fields': ('first_name', 'last_name', 'description', 'interests', 'best_quote')}),
-        ('Permissions', {'fields': ('is_admin', 'is_active')}),
+        ('Permissions', {'fields': ('is_staff', 'is_active')}),
         ('Important dates', {'fields': ('last_login',)}),
     )
     search_fields = ('email',)

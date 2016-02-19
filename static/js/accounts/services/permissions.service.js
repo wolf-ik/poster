@@ -30,7 +30,7 @@
 
         function isAdmin() {
             if (!isAuthenticated()) return false;
-            return Authentication.getAuthenticatedAccount().is_admin;
+            return Authentication.getAuthenticatedAccount().is_staff;
         }
 
         function isAccountOwnerOrAdmin(username) {

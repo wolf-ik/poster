@@ -17,7 +17,7 @@
         .module('poster.route', ['ui.router']);
 
     angular
-        .module('poster.config', []);
+        .module('poster.config', ['satellizer']);
 
     angular
         .module('poster')

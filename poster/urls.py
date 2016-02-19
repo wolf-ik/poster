@@ -7,6 +7,7 @@ from authentication.views import AccountViewSet, LoginView, LogoutView, CheckSes
 from post.views import PostViewSet, CommentViewSet, LikeViewSet, RatingViewSet, TagViewSet
 from poster.views import IndexView, SearchView
 
+
 router = routers.SimpleRouter()
 router.register(r'accounts', AccountViewSet)
 router.register(r'posts', PostViewSet)
@@ -21,6 +22,7 @@ urlpatterns = [
     url(r'^api/v1/auth/login/$', LoginView.as_view(), name='login'),
     url(r'^api/v1/auth/logout/$', LogoutView.as_view(), name='logout'),
     url(r'^api/v1/auth/session/$', CheckSession.as_view(), name='session'),
+    url(r'^api/v1/oauth/', include('rest_social_auth.urls_session')),
 
     url(r'^admin/', admin.site.urls),
     url(r'^.*$', IndexView.as_view(), name='index'),

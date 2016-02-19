@@ -5,12 +5,23 @@
     .module('poster.authentication.controllers')
     .controller('LoginController', LoginController);
 
-  LoginController.$inject = ['$location', '$scope', 'Authentication'];
+  LoginController.$inject = ['$location', '$scope', 'Authentication', '$auth', 'Snackbar'];
 
-  function LoginController($location, $scope, Authentication) {
+  function LoginController($location, $scope, Authentication, $auth, Snackbar) {
     var vm = this;
 
     vm.login = login;
+    vm.oauthLogin = function(provider) {
+      $auth.authenticate(provider).then(oauthSuccessFn, oauthErrorFn);
+
+      function oauthSuccessFn(data) {
+        Authentication.setAuthenticatedAccount(data.data);
+        window.location = '/';
+      }
+      function oauthErrorFn(data) {
+        Snackbar.show(JSON.stringify(data.data));
+      }
+    }
 
     activate();
 
