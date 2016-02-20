@@ -93,10 +93,7 @@
       }
 
       function loginErrorFn(data, status, headers, config) {
-        Snackbar.show(data.data.message);
-        //$.snackbar({
-        //  'content': data.data.message
-        //});
+        Snackbar.show(data.data);
       }
     }
 
@@ -111,10 +108,7 @@
       }
 
       function logoutErrorFn(data, status, headers, config) {
-        Snackbar.show(data.data.detail);
-        //$.snackbar({
-        //  'content': data.data.detail
-        //});
+        Snackbar.show(data.data);
       }
     }
 
@@ -131,10 +125,7 @@
       }
 
       function registerErrorFn(data, status, headers, config) {
-        Snackbar.show(data.data.message);
-        //$.snackbar({
-        //  'content': data.data.message
-        //});
+        Snackbar.show(data.data);
       }
     }
   }
