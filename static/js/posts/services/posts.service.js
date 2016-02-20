@@ -17,6 +17,7 @@
       partial_update: partial_update,
       destroy: destroy,
       loadTagList: loadTagList,
+      loadCategories: loadCategories,
     };
 
     return Post;
@@ -60,6 +61,19 @@
         }
       }
 
+      function getErrorFn(data) {
+        Snackbar.show(JSON.stringify(data.data));
+      }
+    }
+
+    function loadCategories(categories) {
+      $http.get('/api/v1/categories/').then(getSuccessFn, getErrorFn);
+
+      function getSuccessFn(data) {
+        for (var i in data.data) {
+          categories.push(data.data[i]);
+        }
+      }
       function getErrorFn(data) {
         Snackbar.show(JSON.stringify(data.data));
       }

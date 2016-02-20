@@ -4,7 +4,7 @@ from django.contrib import admin
 from rest_framework_nested import routers
 
 from authentication.views import AccountViewSet, LoginView, LogoutView, CheckSession
-from post.views import PostViewSet, CommentViewSet, LikeViewSet, RatingViewSet, TagViewSet
+from post.views import PostViewSet, CommentViewSet, LikeViewSet, RatingViewSet, TagViewSet, CategoryViewSet
 from poster.views import IndexView, SearchView
 
 
@@ -15,6 +15,7 @@ router.register(r'comments', CommentViewSet)
 router.register(r'likes', LikeViewSet)
 router.register(r'ratings', RatingViewSet)
 router.register(r'tags', TagViewSet)
+router.register(r'categories', CategoryViewSet)
 
 urlpatterns = [
     url(r'^api/v1/', include(router.urls)),

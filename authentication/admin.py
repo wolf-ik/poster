@@ -15,7 +15,7 @@ class AccountAdmin(UserAdmin):
         ('Permissions', {'fields': ('is_staff', 'is_active')}),
         ('Important dates', {'fields': ('last_login',)}),
     )
-    search_fields = ('email',)
+    search_fields = ('email', 'username',)
     ordering = ('email',)
     filter_horizontal = ()
 

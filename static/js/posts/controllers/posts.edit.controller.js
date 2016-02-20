@@ -10,6 +10,7 @@
     function PostsEditController($scope, Post, Snackbar, $state, $stateParams, Permissions) {
         $scope.post = undefined;
         $scope.tagList = [];
+        $scope.categories = [];
         $scope.save = save;
         $scope.loadTags = loadTags;
 
@@ -61,6 +62,7 @@
             var id = $stateParams.id;
 
             getPostFromId(id);
+            Post.loadCategories($scope.categories);
             Post.loadTagList($scope.tagList);
         }
     }

@@ -8,8 +8,9 @@
     PostsCreateController.$inject = ['$scope', 'Post', 'Snackbar', '$state', 'Permissions'];
 
     function PostsCreateController($scope, Post, Snackbar, $state, Permissions) {
-        $scope.post = {content: ''};
+        $scope.post = {content: '', category: {id: 1}};
         $scope.tagList = [];
+        $scope.categories = [];
         $scope.save = save;
         $scope.loadTags = loadTags;
         $scope.ck = CKEDITOR.replace('post-edit__content');
@@ -44,8 +45,8 @@
                 $state.go('app.home');
                 Snackbar.show('You need LogIn or SignUp.');
             }
+            Post.loadCategories($scope.categories);
             Post.loadTagList($scope.tagList);
-
         }
     }
 })();

@@ -1,10 +1,16 @@
 from rest_framework import viewsets, permissions, mixins, status
 from rest_framework.response import Response
 
-from post.models import Post, Comment, Like, Rating, Tag
+from post.models import Post, Comment, Like, Rating, Tag, Category
 from post.serializers import PostSerializer, CommentSerializer, LikeSerializer, RatingSerializer, TagSerializer, \
-    PostShowSerializer, CommentShowSerializer
+    PostShowSerializer, CommentShowSerializer, CategorySerializer
 from post.permissions import IsObjectOwnerOrAdmin
+
+
+class CategoryViewSet(mixins.ListModelMixin,
+                      viewsets.GenericViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
 
 
 class TagViewSet(mixins.ListModelMixin,
@@ -53,13 +59,17 @@ class PostViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         tags = self.get_list_tags(self.request.data.get('tags', ''))
-        post = serializer.save(owner=self.request.user)
+        category = self.request.data.get('category', None)
+        category_obj = Category.objects.get(id=category['id'])
+        post = serializer.save(owner=self.request.user, category=category_obj)
         for tag in tags:
             post.tags.add(tag)
 
     def perform_update(self, serializer):
         tags = self.get_list_tags(self.request.data.get('tags', ''))
-        post = serializer.save()
+        category = self.request.data.get('category', None)
+        category_obj = Category.objects.get(id=category['id'])
+        post = serializer.save(category=category_obj)
         post.tags.clear()
         for tag in tags:
             post.tags.add(tag)

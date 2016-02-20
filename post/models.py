@@ -13,6 +13,10 @@ class Achievement(models.Model):
     image_url = models.CharField(max_length=150, unique=True)
 
 
+class Category(models.Model):
+    text = models.CharField(max_length=30)
+
+
 class Tag(models.Model):
     text = models.CharField(max_length=30, unique=True)
 
@@ -40,6 +44,7 @@ class Post(models.Model):
     ratings = models.ManyToManyField(Rating)
 
     tags = models.ManyToManyField(Tag)
+    category = models.ForeignKey(Category, default=1)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

@@ -1,7 +1,13 @@
 from rest_framework import serializers
 
 from authentication.serializers import AccountSerializer
-from post.models import Post, Comment, Like, Rating, Tag
+from post.models import Post, Comment, Like, Rating, Tag, Category
+
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ('id', 'text')
 
 
 class TagSerializer(serializers.ModelSerializer):
@@ -27,7 +33,7 @@ class PostSerializer(serializers.ModelSerializer):
         model = Post
         fields = ('id', 'owner', 'name', 'title', 'content',
                   'ratings', 'rating', 'ratings_count', 'tags',
-                  'created_at', 'updated_at')
+                  'category', 'created_at', 'updated_at')
         read_only_fields = ('id', 'created_at', 'updated_at')
         depth = 1
 
@@ -38,7 +44,7 @@ class PostShowSerializer(PostSerializer):
     tags = TagSerializer(many=True)
 
     class Meta(PostSerializer.Meta):
-        depth = 0
+        depth = 1
 
 
 class CommentSerializer(serializers.ModelSerializer):
