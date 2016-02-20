@@ -27,6 +27,7 @@
         $scope.unlike = unlike;
         $scope.setRating = setRating;
         $scope.canPostRating = false;
+        $scope.socket = null;
 
 
         function createNewComment() {
@@ -36,8 +37,7 @@
             }).then(createSuccessFn, createErrorFn);
 
             function createSuccessFn(data) {
-                $scope.comments.push(data.data);
-                $scope.newComment = '';
+                $scope.socket.send(JSON.stringify(data.data));
                 Snackbar.show('Created!');
             }
 
@@ -99,6 +99,7 @@
                 $scope.post = data.data;
                 $scope.isPostOwnerOrAdmin = Permissions.isAccountOwnerOrAdmin($scope.post.owner.username);
                 $scope.canPostRating = canPostRating();
+                $scope.socket.send(JSON.stringify({'post_id': $scope.post.id}));
             }
 
             function getErrorFn(data) {
@@ -161,6 +162,34 @@
         }
 
 
+        var Socket = {
+            ws: null,
+
+            init: function () {
+                this.ws = new WebSocket('ws://localhost:8888/websocket');
+                this.ws.onopen = function () {
+                    //console.log('Socket opened');
+                };
+
+                this.ws.onclose = function () {
+                    //console.log('Socket close');
+                };
+
+                this.ws.onmessage = function (e) {
+                    var data = JSON.parse(e.data)
+                    $scope.comments.push(data);
+                    $scope.newComment = '';
+                    $scope.$apply();
+                };
+            }
+        };
+
+
+        $scope.$on('$destroy', function() {
+            $scope.socket.close();
+        });
+
+
         activate()
 
         function activate() {
@@ -168,6 +197,9 @@
 
             getPostFromId(id);
             getCommentsForPost(id);
+
+            Socket.init();
+            $scope.socket = Socket.ws;
         }
     }
 })();

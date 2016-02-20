@@ -20,6 +20,11 @@ class PostViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsObjectOwnerOrAdmin)
 
     @staticmethod
+    def replace_data_to_public(resp):
+        resp.data = PostShowSerializer(Post.objects.get(id=resp.data['id'])).data
+        return resp
+
+    @staticmethod
     def get_list_tags(tags):
         def foo(tag):
             obj, created = Tag.objects.get_or_create(text=tag.get('text', None))
@@ -50,11 +55,24 @@ class PostViewSet(viewsets.ModelViewSet):
         for tag in tags:
             post.tags.add(tag)
 
+    def create(self, request, *args, **kwargs):
+        resp = super(PostViewSet, self).create(request, *args, **kwargs)
+        return self.replace_data_to_public(resp)
+
+    def update(self, request, *args, **kwargs):
+        resp = super(PostViewSet, self).update(request, *args, **kwargs)
+        return self.replace_data_to_public(resp)
+
 
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.order_by('-create_at')
     serializer_class = CommentSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsObjectOwnerOrAdmin)
+
+    @staticmethod
+    def replace_data_to_public(resp):
+        resp.data = CommentShowSerializer(Comment.objects.get(id=resp.data['id'])).data
+        return resp
 
     def retrieve(self, request, *args, **kwargs):
         self.serializer_class = CommentShowSerializer
@@ -69,6 +87,14 @@ class CommentViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         post = Post.objects.get(id=self.request.data.get('post_id', None))
         serializer.save(owner=self.request.user, post=post)
+
+    def update(self, request, *args, **kwargs):
+        resp = super(CommentViewSet, self).update(request, *args, **kwargs)
+        return self.replace_data_to_public(resp)
+
+    def create(self, request, *args, **kwargs):
+        resp = super(CommentViewSet, self).create(request, *args, **kwargs)
+        return self.replace_data_to_public(resp)
 
 
 class LikeViewSet(mixins.CreateModelMixin,
