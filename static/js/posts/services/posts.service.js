@@ -23,8 +23,12 @@
 
     /////////////////////
 
-    function list() {
-      return $http.get('/api/v1/posts/');
+    function list(params) {
+      return $http({
+        url: '/api/v1/posts/',
+        method: 'GET',
+        params: params,
+      });
     }
 
     function create(post) {

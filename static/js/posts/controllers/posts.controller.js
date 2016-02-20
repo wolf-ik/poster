@@ -11,10 +11,8 @@
         $scope.isAuthenticated = Permissions.isAuthenticated();
         $scope.posts = [];
 
-        activate()
-
-        function activate() {
-            Post.list().then(getSuccessFn, getErrorFn)
+        function getPosts() {
+            Post.list({'sort_by': 'all'}).then(getSuccessFn, getErrorFn)
 
             function getSuccessFn(data) {
                 $scope.posts = data.data;
@@ -23,6 +21,12 @@
             function getErrorFn(data) {
                 Snackbar.show(JSON.stringify(data.data));
             }
+        }
+
+        activate()
+
+        function activate() {
+            getPosts();
         }
     }
 })();
