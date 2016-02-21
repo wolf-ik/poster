@@ -38,7 +38,7 @@
 
             function createSuccessFn(data) {
                 $scope.socket.send(JSON.stringify(data.data));
-                Snackbar.show('Created!');
+                $scope.newComment = '';
             }
 
             function createErrorFn(data) {
@@ -55,10 +55,9 @@
             Comment.update($scope.editComment.id, $scope.editComment).then(updateSuccessFn, updateErrorFn);
 
             function updateSuccessFn(data) {
-                $scope.comments[$scope.editCommentIndex] = data.data;
+                $scope.socket.send(JSON.stringify(data.data));
                 $scope.editComment = undefined;
                 $scope.editCommentIndex = 0;
-                Snackbar.show('Updated.');
             }
 
             function updateErrorFn(data) {
@@ -70,8 +69,10 @@
             Comment.destroy($scope.comments[index].id).then(destroySuccessFn, destroyErrorFn);
 
             function destroySuccessFn(data) {
-                $scope.comments.splice(index, 1);
-                Snackbar.show('Deleted.');
+                $scope.socket.send(JSON.stringify({
+                    'remove': $scope.comments[index].id,
+                    'post': $scope.post.id,
+                }));
             }
 
             function destroyErrorFn(data) {
@@ -161,6 +162,25 @@
             return true;
         }
 
+        function refreshComments(comment){
+            if (comment.remove) {
+                var id = comment.remove;
+                for (var i in $scope.comments) {
+                    if ($scope.comments[i].id === id) {
+                        $scope.comments.splice(i, 1);
+                    }
+                }
+                return;
+            }
+            for (var i in $scope.comments) {
+                if (comment.id === $scope.comments[i].id) {
+                    $scope.comments[i] = comment;
+                    return;
+                }
+            }
+            $scope.comments.push(comment);
+        }
+
 
         var Socket = {
             ws: null,
@@ -177,8 +197,7 @@
 
                 this.ws.onmessage = function (e) {
                     var data = JSON.parse(e.data)
-                    $scope.comments.push(data);
-                    $scope.newComment = '';
+                    refreshComments(data);
                     $scope.$apply();
                 };
             }
