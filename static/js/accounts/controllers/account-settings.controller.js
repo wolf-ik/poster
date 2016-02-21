@@ -66,7 +66,7 @@
       }
 
       function accountErrorFn(data, status, headers, config) {
-        Snackbar.show(JSON.stringify(data.data));
+        Snackbar.show(data.data);
       }
     }
   }

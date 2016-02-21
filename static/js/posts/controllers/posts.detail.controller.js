@@ -42,7 +42,7 @@
             }
 
             function createErrorFn(data) {
-                Snackbar.show(JSON.stringify(data.data));
+                Snackbar.show(data.data);
             }
         }
 
@@ -62,7 +62,7 @@
             }
 
             function updateErrorFn(data) {
-                Snackbar.show(JSON.stringify(data.data));
+                Snackbar.show(data.data);
             }
         }
 
@@ -75,7 +75,7 @@
             }
 
             function destroyErrorFn(data) {
-                Snackbar.show(JSON.stringify(data.data));
+                Snackbar.show(data.data);
             }
         }
 
@@ -88,7 +88,7 @@
             }
 
             function destroyErrorFn(data) {
-                Snackbar.show(JSON.stringify(data.data));
+                Snackbar.show(data.data);
             }
         }
 
@@ -103,7 +103,7 @@
             }
 
             function getErrorFn(data) {
-                Snackbar.show(JSON.stringify(data.data));
+                Snackbar.show(data.data);
             }
         }
 
@@ -115,7 +115,7 @@
             }
 
             function getErrorFn(data) {
-                Snackbar.show(JSON.stringify(data.data));
+                Snackbar.show(data.data);
             }
         }
 
@@ -147,7 +147,7 @@
             }
 
             function postErrorFn(data) {
-                Snackbar.show(JSON.stringify(data.data));
+                Snackbar.show(data.data);
             }
         }
 

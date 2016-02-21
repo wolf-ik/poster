@@ -1,4 +1,4 @@
-import datetime
+import random
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db import models
 
@@ -6,7 +6,7 @@ from django.db import models
 class AccountManager(BaseUserManager):
     def create_user(self, email, password=None, **kwargs):
         def random_email():
-            return "and.last.random.email.for.fucking.vk@ya.ru"
+            return "%d@gmail.com" % random.randint(1, 1000000000000000)
 
         if not email:
             email = random_email()

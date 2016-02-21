@@ -26,7 +26,7 @@
             }
 
             function postErrorFn(data) {
-                Snackbar.show(JSON.stringify(data.data))
+                Snackbar.show(data.data)
             }
         }
 
