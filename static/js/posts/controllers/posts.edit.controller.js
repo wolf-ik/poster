@@ -63,7 +63,11 @@
 
             getPostFromId(id);
             Post.loadCategories($scope.categories);
-            Post.loadTagList($scope.tagList);
+            Post.loadTagList({'sort_by': 'all'}, setTags);
+
+            function setTags(data) {
+                $scope.tagList = data.data;
+            }
         }
     }
 })();

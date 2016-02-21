@@ -19,6 +19,15 @@ class TagViewSet(mixins.ListModelMixin,
     serializer_class = TagSerializer
     permission_classes = (permissions.AllowAny,)
 
+    def list(self, request, *args, **kwargs):
+        sort_by = request.query_params.get('sort_by', None)
+        sort_mapping = {
+            'all': Tag.objects.all(),
+            'random': Tag.objects.all().order_by('?')[:20],
+        }
+        self.queryset = sort_mapping.get(sort_by, self.queryset)
+        return super(TagViewSet, self).list(request, *args, **kwargs)
+
 
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.order_by('-created_at')

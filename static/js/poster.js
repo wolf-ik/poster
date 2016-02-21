@@ -11,6 +11,7 @@
             'poster.utils',
             'poster.posts',
             'ngTagsInput',
+            'angular-jqcloud',
         ]);
 
     angular

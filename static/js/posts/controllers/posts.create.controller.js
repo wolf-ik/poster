@@ -46,7 +46,11 @@
                 Snackbar.show('You need LogIn or SignUp.');
             }
             Post.loadCategories($scope.categories);
-            Post.loadTagList($scope.tagList);
+            Post.loadTagList({'sort_by': 'all'}, setTags);
+
+            function setTags(data){
+                $scope.tagList = data.data;
+            }
         }
     }
 })();

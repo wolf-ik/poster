@@ -52,14 +52,12 @@
       return $http.delete('/api/v1/posts/' + id + '/');
     }
 
-    function loadTagList(tagList) {
-      $http.get('/api/v1/tags/').then(getSuccessFn, getErrorFn);
-
-      function getSuccessFn(data) {
-        for (var i in data.data) {
-          tagList.push(data.data[i]);
-        }
-      }
+    function loadTagList(params, callback) {
+      $http({
+        'url': '/api/v1/tags/',
+        'method': 'GET',
+        params: params,
+      }).then(callback, getErrorFn);
 
       function getErrorFn(data) {
         Snackbar.show(data.data);
