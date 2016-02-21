@@ -134,7 +134,7 @@ COMPRESS_ENABLED = os.environ.get('COMPRESS_ENABLED', False)
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.SessionAuthentication',
-    )
+    ),
 }
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()

@@ -1,4 +1,7 @@
-<div class="col-md-8">
+<div class="col-md-8"
+     infinite-scroll="loadMore()"
+     infinite-scroll-distance="1"
+     infinite-scroll-disabled="scrollDisabled">
 
     <button class="btn btn-info" ui-sref="app.posts.create" ng-show="isAuthenticated">Create new post!</button>
 

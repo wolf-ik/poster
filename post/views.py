@@ -1,7 +1,8 @@
-from rest_framework import viewsets, permissions, mixins, status
+from rest_framework import viewsets, permissions, mixins, status, pagination
 from rest_framework.response import Response
 
 from post.models import Post, Comment, Like, Rating, Tag, Category
+from post.pagination import PostPagination
 from post.serializers import PostSerializer, CommentSerializer, LikeSerializer, RatingSerializer, TagSerializer, \
     PostShowSerializer, CommentShowSerializer, CategorySerializer
 from post.permissions import IsObjectOwnerOrAdmin
@@ -53,6 +54,8 @@ class PostViewSet(viewsets.ModelViewSet):
         self.serializer_class = PostShowSerializer
         sort_by = request.query_params.get('sort_by', None)
         username = request.query_params.get('username', None)
+        if sort_by == 'all':
+            self.pagination_class = PostPagination
         sort_mapping = {
             'all': Post.objects.order_by('-created_at'),
             'top': Post.objects.order_by('-rating')[:10],

@@ -12,6 +12,7 @@
             'poster.posts',
             'ngTagsInput',
             'angular-jqcloud',
+            'infinite-scroll',
         ]);
 
     angular
