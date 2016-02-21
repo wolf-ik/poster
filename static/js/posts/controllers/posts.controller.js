@@ -12,7 +12,7 @@
         $scope.posts = [];
 
         function getPosts() {
-            Post.list({'sort_by': 'all'}).then(getSuccessFn, getErrorFn)
+            Post.list({'sort_by': 'all'}).then(getSuccessFn, getErrorFn);
 
             function getSuccessFn(data) {
                 $scope.posts = data.data;

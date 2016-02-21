@@ -52,11 +52,11 @@ class PostViewSet(viewsets.ModelViewSet):
     def list(self, request, *args, **kwargs):
         self.serializer_class = PostShowSerializer
         sort_by = request.query_params.get('sort_by', None)
-        user_id = request.query_params.get('user_id', None)
+        username = request.query_params.get('username', None)
         sort_mapping = {
             'all': Post.objects.order_by('-created_at'),
             'top': Post.objects.order_by('-rating')[:10],
-            'user': Post.objects.filter(owner_id=user_id).order_by('-created_at'),
+            'user': Post.objects.filter(owner__username=username).order_by('-created_at'),
         }
         self.queryset = sort_mapping.get(sort_by, self.queryset)
 

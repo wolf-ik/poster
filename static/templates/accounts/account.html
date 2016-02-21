@@ -14,10 +14,24 @@
         </div>
 
         <div class="well">
-            Achivements:
+            Achievements:
             <h3 ng-repeat="ach in account.achievements">{{ ach.title }}</h3>
         </div>
 
         <a ui-sref=".settings" class="btn btn-info" ng-show="isAccountOwnerOrAdmin">edit</a>
     </div>
+</div>
+
+<div class="well col-md-8">
+    <div ng-repeat="curent_post in posts | orderBy:sortField:reverse"
+         ng-include
+         src="'/static/templates/posts/posts-detail-mini.html'"
+         ng-controller="PostDetailMiniController"
+         onload="post=curent_post"></div>
+</div>
+<div class="well col-md-2">
+    <h3>Sort by:</h3>
+    <a ng-click="setSortField('name')">Name</a><br>
+    <a ng-click="setSortField('created_at')">Date</a>
+
 </div>

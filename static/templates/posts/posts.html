@@ -3,8 +3,9 @@
     <button class="btn btn-info" ui-sref="app.posts.create" ng-show="isAuthenticated">Create new post!</button>
 
     <h1>posts template</h1>
-    <div class="well" ng-repeat="post in posts">
-        <a ui-sref="app.posts.detail({id:post.id})">{{ post.name }}</a><br>
-        <a ui-sref="app.accounts.detail({username:post.owner.username})">post author</a>
-    </div>
+    <div ng-repeat="curent_post in posts"
+         ng-include
+         src="'/static/templates/posts/posts-detail-mini.html'"
+         ng-controller="PostDetailMiniController"
+         onload="post=curent_post"></div>
 </div>
