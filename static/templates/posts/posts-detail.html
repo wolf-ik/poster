@@ -7,7 +7,7 @@
     <hr>
     <div class="well well-sm pull-right col-md-3">
         <h2 class="align-center" translate>Rating: {{ post.rating | number:2 }}</h2>
-        <div ng-show="canPostRating">
+        <div ng-show="canPostRatingFn()">
         <button class="btn btn-success btn-small" ng-click="setRating(value)" ng-repeat="value in [1,2,3,4,5]">
             {{ $index + 1 }}
         </button>

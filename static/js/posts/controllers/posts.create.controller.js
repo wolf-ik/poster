@@ -20,7 +20,7 @@
             Post.create($scope.post).then(postSuccessFn, postErrorFn);
 
             function postSuccessFn(data) {
-                $state.go('app.home');
+                $state.go('app');
                 Snackbar.show('Saved');
 
             }

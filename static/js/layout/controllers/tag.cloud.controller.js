@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('poster')
+        .module('poster.layout.controllers')
         .controller('TagCloudController', TagCloudController);
 
     TagCloudController.$inject = ['$scope', 'Post', '$state'];

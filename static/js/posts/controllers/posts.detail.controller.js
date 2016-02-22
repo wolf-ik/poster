@@ -5,16 +5,17 @@
         .module('poster.posts.controllers')
         .controller('PostsDetailController', PostsDetailController)
 
-    PostsDetailController.$inject = ['Authentication', '$http', '$scope', '$sce', 'Post', 'Snackbar', '$stateParams', '$state', 'Permissions'];
+    PostsDetailController.$inject = ['Authentication', '$http', '$scope', '$sce', 'Post', 'Snackbar', '$stateParams', '$state', 'Permissions', 'TopPost'];
 
-    function PostsDetailController(Authentication, $http, $scope, $sce, Post, Snackbar, $stateParams, $state, Permissions) {
+    function PostsDetailController(Authentication, $http, $scope, $sce, Post, Snackbar, $stateParams, $state, Permissions, TopPost) {
         $scope.sce = $sce;
         $scope.isAuthenticated = Permissions.isAuthenticated();
         $scope.isPostOwnerOrAdmin = false;
         $scope.post = undefined;
         $scope.deletePost = deletePost;
         $scope.setRating = setRating;
-        $scope.canPostRating = false;
+        $scope.postRated = false;
+        $scope.canPostRatingFn = canPostRatingFn;
 
 
         function deletePost() {
@@ -42,7 +43,7 @@
                 var newRating = (rating * count + value) / (count + 1);
                 $scope.post.rating = newRating;
                 $scope.post.ratings_count += 1;
-                $scope.canPostRating = false;
+                $scope.postRated = true;
             }
 
             function postErrorFn(data) {
@@ -50,8 +51,8 @@
             }
         }
 
-        function canPostRating() {
-            if (!$scope.isAuthenticated) return false;
+        function canPostRatingFn() {
+            if (!$scope.isAuthenticated || !$scope.post || $scope.postRated) return false;
             var user_id = Authentication.getAuthenticatedAccount().id;
             var ratings = $scope.post.ratings;
             for (var i in ratings) {
@@ -61,12 +62,13 @@
         }
 
         function getPostFromId(id) {
+            $scope.post = TopPost.getExistPost(id);
+            if ($scope.post) return;
             Post.retrieve(id).then(getSuccessFn, getErrorFn);
 
             function getSuccessFn(data) {
                 $scope.post = data.data;
                 $scope.isPostOwnerOrAdmin = Permissions.isAccountOwnerOrAdmin($scope.post.owner.username);
-                $scope.canPostRating = canPostRating();
             }
 
             function getErrorFn(data) {
