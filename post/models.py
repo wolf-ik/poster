@@ -20,6 +20,8 @@ class Category(models.Model):
 class Tag(models.Model):
     text = models.CharField(max_length=30, unique=True)
 
+    search = SphinxSearch('tag')
+
 
 class Like(models.Model):
     owner = models.ForeignKey(Account)
@@ -43,13 +45,11 @@ class Post(models.Model):
     ratings_count = models.IntegerField(default=0)
     ratings = models.ManyToManyField(Rating)
 
-    tags = models.ManyToManyField(Tag)
+    tags = models.ManyToManyField(Tag, related_name='posts_for_this_tag')
     category = models.ForeignKey(Category, default=1)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
-    search = SphinxSearch('post')
 
 
 class Comment(models.Model):
