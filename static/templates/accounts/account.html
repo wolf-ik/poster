@@ -23,7 +23,7 @@
                 <hr>
                 <dt>Medals:</dt>
                 <dd>
-                    <p ng-repeat="ach in account.achievements">{{ ach.title }}</p>
+                    <img ng-src="{{ ach.image_url }}" title="{{ ach.title }}" ng-repeat="ach in account.achievements">
                 </dd>
                 <hr>
                 <dt>Posts:</dt>
