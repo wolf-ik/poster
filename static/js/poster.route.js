@@ -13,15 +13,22 @@
     $stateProvider
         .state('app', {
           url: '/',
-          abstract: true,
           views: {
             'header': {
               templateUrl: '/static/templates/layout/navbar.html',
               controller: 'NavbarController',
             },
             'content': {
-              templateUrl: '/static/templates/layout/index.html',
-              controller: 'IndexController',
+              templateUrl: '/static/templates/posts/posts.html',
+              controller: 'PostsController',
+            },
+            'top-posts': {
+              templateUrl: '/static/templates/top-posts.html',
+              controller: 'TopPostsController',
+            },
+            'tag-cloud': {
+              templateUrl: '/static/templates/tag-cloud.html',
+              controller: 'TagCloudController',
             }
           }
         })
@@ -33,7 +40,9 @@
               templateUrl: '/static/templates/authentication/login.html',
               controller: 'LoginController',
               controllerAs: 'vm',
-            }
+            },
+            'top-posts@': {},
+            'tag-cloud@': {},
           }
         })
 
@@ -44,7 +53,9 @@
               templateUrl: '/static/templates/authentication/register.html',
               controller: 'RegisterController',
               controllerAs: 'vm',
-            }
+            },
+            'top-posts@': {},
+            'tag-cloud@': {},
           }
         })
 
@@ -69,24 +80,6 @@
             'content@': {
               templateUrl: '/static/templates/accounts/settings.html',
               controller: 'AccountSettingsController',
-            }
-          }
-        })
-
-        .state('app.home', {
-          url: '',
-          views: {
-            'posts': {
-              templateUrl: '/static/templates/posts/posts.html',
-              controller: 'PostsController',
-            },
-            'top-posts': {
-              templateUrl: '/static/templates/top-posts.html',
-              controller: 'TopPostsController',
-            },
-            'tag-cloud': {
-              templateUrl: '/static/templates/tag-cloud.html',
-              controller: 'TagCloudController',
             }
           }
         })

@@ -16,7 +16,13 @@
 
   <div class="container-fluid">
     <div class="row">
-      <div class="col-xs-12" ui-view="content"></div>
+      <div class="col-xs-12">
+          <div class="col-md-8" ui-view="content"></div>
+          <div class="col-md-4">
+              <div ui-view="top-posts"></div>
+              <div ui-view="tag-cloud"></div>
+          </div>
+      </div>
     </div>
   </div>
 
