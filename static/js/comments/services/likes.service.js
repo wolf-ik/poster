@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('poster.posts.services')
+    .module('poster.comments.services')
     .factory('Like', Like);
 
   Like.$inject = ['$http', 'Authentication', 'Snackbar'];

@@ -76,13 +76,6 @@ def check_achievement_2(instance, **kwargs):
         instance.target.achievements.add(ach)
 
 
-@receiver(post_save, sender=Like)
-def check_achievement_3(instance, **kwargs):
-    ach = Achievement.objects.get(id=3)
-    if (len(Like.objects.filter(owner=instance.owner)) >= 5):
-        instance.owner.achievements.add(ach)
-
-
 @receiver(post_save, sender=Post)
 def check_achievement_4(instance, **kwargs):
     ach = Achievement.objects.get(id=4)

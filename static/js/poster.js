@@ -10,6 +10,7 @@
             'poster.accounts',
             'poster.utils',
             'poster.posts',
+            'poster.comments',
             'ngTagsInput',
             'angular-jqcloud',
             'infinite-scroll',

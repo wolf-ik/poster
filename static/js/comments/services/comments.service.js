@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('poster.posts.services')
+    .module('poster.comments.services')
     .factory('Comment', Comment);
 
   Comment.$inject = ['$http'];

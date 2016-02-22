@@ -1,0 +1,62 @@
+<button class="btn btn-info pull-right col-md-3" data-toggle="modal" data-target="#new-comment-modal-id"  ng-show="isAuthenticated">New Comment</button>
+<br>
+<div ng-repeat="comment in comments">
+    <div>
+        <h4>
+            <a ui-sref="app.accounts.detail({username:comment.owner.username})">{{ comment.owner.username }}</a>
+            <small>{{ comment.created_at | date }}</small>
+        </h4>
+        <p style="word-wrap: break-word;">{{ comment.content }}</p>
+        <div class="pull-right" ng-show="isAuthenticated">
+            <button class="btn btn-danger btn-small" ng-show="isCommentOwnerOrAdmin(comment.owner.username)" ng-click="deleteComment($index)">
+                Delete
+            </button>
+            <button class="btn btn-info btn-small" ng-show="isCommentOwnerOrAdmin(comment.owner.username)" ng-click="startEditComment($index)" data-toggle="modal" data-target="#edit-comment-modal-id">
+                Edit
+            </button>
+            <button class="btn btn-info btn-small" ng-click="like($index)" ng-show="showLike($index)">
+                Like
+            </button>
+            <button class="btn btn-warning btn-small" ng-click="unlike($index)" ng-show="!showLike($index)">
+                Unlike
+            </button>
+        </div>
+        <p>Likes: {{ comment.likes.length }}</p>
+        <hr>
+    </div>
+</div>
+
+
+<div class="modal" id="new-comment-modal-id">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">New Comment</h4>
+      </div>
+      <div class="modal-body">
+        <textarea class="form-control" ng-model="newComment.content"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="createNewComment()">Create</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="edit-comment-modal-id">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Edit Comment</h4>
+      </div>
+      <div class="modal-body">
+        <textarea class="form-control" ng-model="editComment.content"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="saveEditComment()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>

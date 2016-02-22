@@ -5,131 +5,29 @@
         .module('poster.posts.controllers')
         .controller('PostsDetailController', PostsDetailController)
 
-    PostsDetailController.$inject = ['Authentication', '$http', '$scope', '$sce', 'Post', 'Comment', 'Snackbar', '$stateParams', '$state', 'Permissions', 'Like'];
+    PostsDetailController.$inject = ['Authentication', '$http', '$scope', '$sce', 'Post', 'Snackbar', '$stateParams', '$state', 'Permissions'];
 
-    function PostsDetailController(Authentication, $http, $scope, $sce, Post, Comment, Snackbar, $stateParams, $state, Permissions, Like) {
+    function PostsDetailController(Authentication, $http, $scope, $sce, Post, Snackbar, $stateParams, $state, Permissions) {
         $scope.sce = $sce;
         $scope.isAuthenticated = Permissions.isAuthenticated();
         $scope.isPostOwnerOrAdmin = false;
-        $scope.isCommentOwnerOrAdmin = Permissions.isAccountOwnerOrAdmin;
         $scope.post = undefined;
-        $scope.comments = [];
-        $scope.newComment = '';
-        $scope.editComment = undefined;
-        $scope.editCommentIndex = 0;
-        $scope.createNewComment = createNewComment;
-        $scope.startEditComment = startEditComment;
-        $scope.saveEditComment = saveEditComment;
-        $scope.deleteComment = deleteComment;
         $scope.deletePost = deletePost;
-        $scope.showLike = showLike;
-        $scope.like = like;
-        $scope.unlike = unlike;
         $scope.setRating = setRating;
         $scope.canPostRating = false;
-        $scope.socket = null;
 
-
-        function createNewComment() {
-            Comment.create({
-                'content': $scope.newComment,
-                'post_id': $stateParams.id
-            }).then(createSuccessFn, createErrorFn);
-
-            function createSuccessFn(data) {
-                $scope.socket.send(JSON.stringify(data.data));
-                $scope.newComment = '';
-            }
-
-            function createErrorFn(data) {
-                Snackbar.show(data.data);
-            }
-        }
-
-        function startEditComment(index){
-            $scope.editCommentIndex = index;
-            $scope.editComment = jQuery.extend({}, $scope.comments[index]);
-        }
-
-        function saveEditComment() {
-            Comment.update($scope.editComment.id, $scope.editComment).then(updateSuccessFn, updateErrorFn);
-
-            function updateSuccessFn(data) {
-                $scope.socket.send(JSON.stringify(data.data));
-                $scope.editComment = undefined;
-                $scope.editCommentIndex = 0;
-            }
-
-            function updateErrorFn(data) {
-                Snackbar.show(data.data);
-            }
-        }
-
-        function deleteComment(index) {
-            Comment.destroy($scope.comments[index].id).then(destroySuccessFn, destroyErrorFn);
-
-            function destroySuccessFn(data) {
-                $scope.socket.send(JSON.stringify({
-                    'remove': $scope.comments[index].id,
-                    'post': $scope.post.id,
-                }));
-            }
-
-            function destroyErrorFn(data) {
-                Snackbar.show(data.data);
-            }
-        }
 
         function deletePost() {
             Post.destroy($stateParams.id).then(destroySuccessFn, destroyErrorFn)
 
             function destroySuccessFn(data) {
-                $state.go('app.home');
+                $state.go('app');
                 Snackbar.show('Deleted.');
             }
 
             function destroyErrorFn(data) {
                 Snackbar.show(data.data);
             }
-        }
-
-        function getPostFromId(id) {
-            Post.retrieve(id).then(getSuccessFn, getErrorFn);
-
-            function getSuccessFn(data) {
-                $scope.post = data.data;
-                $scope.isPostOwnerOrAdmin = Permissions.isAccountOwnerOrAdmin($scope.post.owner.username);
-                $scope.canPostRating = canPostRating();
-                $scope.socket.send(JSON.stringify({'post_id': $scope.post.id}));
-            }
-
-            function getErrorFn(data) {
-                Snackbar.show(data.data);
-            }
-        }
-
-        function getCommentsForPost(id) {
-            Comment.list(id).then(getSuccessFn, getErrorFn);
-
-            function getSuccessFn(data) {
-                $scope.comments = data.data;
-            }
-
-            function getErrorFn(data) {
-                Snackbar.show(data.data);
-            }
-        }
-
-        function showLike(index) {
-            return Like.showLike($scope.comments[index].likes);
-        }
-
-        function like(index) {
-            Like.like($scope.comments[index].likes, $scope.comments[index].id);
-        }
-
-        function unlike(index) {
-            Like.unlike($scope.comments[index].likes);
         }
 
         function setRating(value) {
@@ -162,51 +60,19 @@
             return true;
         }
 
-        function refreshComments(comment){
-            if (comment.remove) {
-                var id = comment.remove;
-                for (var i in $scope.comments) {
-                    if ($scope.comments[i].id === id) {
-                        $scope.comments.splice(i, 1);
-                    }
-                }
-                return;
+        function getPostFromId(id) {
+            Post.retrieve(id).then(getSuccessFn, getErrorFn);
+
+            function getSuccessFn(data) {
+                $scope.post = data.data;
+                $scope.isPostOwnerOrAdmin = Permissions.isAccountOwnerOrAdmin($scope.post.owner.username);
+                $scope.canPostRating = canPostRating();
             }
-            for (var i in $scope.comments) {
-                if (comment.id === $scope.comments[i].id) {
-                    $scope.comments[i] = comment;
-                    return;
-                }
+
+            function getErrorFn(data) {
+                Snackbar.show(data.data);
             }
-            $scope.comments.push(comment);
         }
-
-
-        var Socket = {
-            ws: null,
-
-            init: function () {
-                this.ws = new WebSocket('ws://localhost:8888/websocket');
-                this.ws.onopen = function () {
-                    //console.log('Socket opened');
-                };
-
-                this.ws.onclose = function () {
-                    //console.log('Socket close');
-                };
-
-                this.ws.onmessage = function (e) {
-                    var data = JSON.parse(e.data)
-                    refreshComments(data);
-                    $scope.$apply();
-                };
-            }
-        };
-
-
-        $scope.$on('$destroy', function() {
-            $scope.socket.close();
-        });
 
 
         activate()
@@ -215,10 +81,6 @@
             var id = $stateParams.id;
 
             getPostFromId(id);
-            getCommentsForPost(id);
-
-            Socket.init();
-            $scope.socket = Socket.ws;
         }
     }
 })();
