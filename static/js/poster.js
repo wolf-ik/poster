@@ -14,6 +14,7 @@
             'ngTagsInput',
             'angular-jqcloud',
             'infinite-scroll',
+            'gettext',
         ]);
 
     angular
@@ -26,10 +27,12 @@
         .module('poster')
         .run(run)
 
-    run.$inject = ['$http', 'Authentication'];
+    run.$inject = ['$http', 'gettextCatalog', 'Authentication'];
 
-    function run($http, Authentication) {
+    function run($http, gettextCatalog, Authentication) {
         //Authentication.getAuthenticatedAccountFromServer();
+        gettextCatalog.loadRemote('/static/translations/ru.json');
+        gettextCatalog.loadRemote('/static/translations/en.json');
         $http.defaults.xsrfHeaderName = 'X-CSRFToken';
         $http.defaults.xsrfCookieName = 'csrftoken';
     }

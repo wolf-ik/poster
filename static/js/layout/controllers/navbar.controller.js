@@ -5,9 +5,9 @@
     .module('poster.layout.controllers')
     .controller('NavbarController', NavbarController);
 
-  NavbarController.$inject = ['$scope', 'Authentication', 'Account', 'Snackbar', '$state'];
+  NavbarController.$inject = ['$scope', 'Authentication', 'Account', 'Snackbar', '$state', 'gettextCatalog'];
 
-  function NavbarController($scope, Authentication, Account, Snackbar, $state) {
+  function NavbarController($scope, Authentication, Account, Snackbar, $state, gettextCatalog) {
     $scope.isAuthenticated = Authentication.isAuthenticated;
     $scope.account = Authentication.getAuthenticatedAccount();
     $scope.themes = ['slate', 'spacelab'];
@@ -51,6 +51,7 @@
 
     function changeLanguage(language) {
       $scope.account.language = language;
+      gettextCatalog.setCurrentLanguage(getLanguage());
       Account.partial_update($scope.account.username, {
         'language': language,
       }).then(successUpdateFn, errorUpdateFn);
@@ -66,6 +67,12 @@
 
     function logout() {
       Authentication.logout();
+    }
+
+    activate();
+
+    function activate() {
+      gettextCatalog.setCurrentLanguage(getLanguage());
     }
   }
 })();

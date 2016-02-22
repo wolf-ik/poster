@@ -1,12 +1,12 @@
 <div>
     <h1><p>{{ post.name }}</p>
     <p><small>{{ post.title }}</small></p></h1>
-    <p>Tags: <a class="well well-sm" style="margin-left: 10px;" ui-sref="app.search({query:tag.text})" ng-repeat="tag in post.tags">{{ tag.text }}</a></p>
+    <p translate>Tags: <a class="well well-sm" style="margin-left: 10px;" ui-sref="app.search({query:tag.text})" ng-repeat="tag in post.tags">{{ tag.text }}</a></p>
     <br><hr>
     <div ng-bind-html="sce.trustAsHtml(post.content)"></div>
     <hr>
     <div class="well well-sm pull-right col-md-3">
-        <h2 class="align-center">Rating: {{ post.rating | number:2 }}</h2>
+        <h2 class="align-center" translate>Rating: {{ post.rating | number:2 }}</h2>
         <div ng-show="canPostRating">
         <button class="btn btn-success btn-small" ng-click="setRating(value)" ng-repeat="value in [1,2,3,4,5]">
             {{ $index + 1 }}
@@ -14,10 +14,10 @@
         </div>
     </div>
     <div ng-show="isPostOwnerOrAdmin">
-        <button class="btn btn-warning" ui-sref=".edit">
+        <button class="btn btn-warning" ui-sref=".edit" translate>
             Edit
         </button>
-        <button class="btn btn-danger" ng-click="deletePost()">
+        <button class="btn btn-danger" ng-click="deletePost()" translate>
             Delete
         </button><br>
     </div>

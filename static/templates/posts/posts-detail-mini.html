@@ -1,8 +1,8 @@
 <div class="well">
     <h2><a ui-sref="app.posts.detail({id:post.id})">{{ post.name }}</a>
-    <p><small>Title: {{ post.title }}</small></p></h2>
+    <p><small translate>Title: {{ post.title }}</small></p></h2>
     <p><h6><blockquote class="blockquote-reverse">{{ post.created_at | date }} by <a ui-sref="app.accounts.detail({username:post.owner.username})">{{ post.owner.username }}</a></blockquote></h6></p>
-    <p>Tags: <a class="well well-sm" style="margin-left: 10px;" ui-sref="app.search({query:tag.text})" ng-repeat="tag in post.tags">{{ tag.text }}</a></p>
-    <button class="btn btn-info pull-right" ui-sref="app.posts.detail({id:post.id})">Read more...</button>
+    <p translate>Tags: <a class="well well-sm" style="margin-left: 10px;" ui-sref="app.search({query:tag.text})" ng-repeat="tag in post.tags">{{ tag.text }}</a></p>
+    <button class="btn btn-info pull-right" ui-sref="app.posts.detail({id:post.id})" translate>Read more...</button>
     <br>
 </div>

@@ -1,33 +1,33 @@
 <div class="account" ng-show="account">
     <div>
-        <a ui-sref=".settings" class="btn btn-info pull-right col-md-3" ng-show="isAccountOwnerOrAdmin">Edit</a>
+        <a ui-sref=".settings" class="btn btn-info pull-right col-md-3" ng-show="isAccountOwnerOrAdmin" translate>Edit</a>
         <dl class="dl-horizontal">
             <h3>
-                <dt>Username:</dt>
+                <dt translate>Username:</dt>
                 <dd>{{ account.username }}</dd>
                 <hr>
-                <dt>First name:</dt>
+                <dt translate>First name:</dt>
                 <dd>{{ account.first_name }}</dd>
                 <hr>
-                <dt>Last name:</dt>
+                <dt translate>Last name:</dt>
                 <dd>{{ account.last_name }}</dd>
                 <hr>
-                <dt>Description:</dt>
+                <dt translate>Description:</dt>
                 <dd>{{ account.description }}</dd>
                 <hr>
-                <dt>Best quote:</dt>
+                <dt translate>Best quote:</dt>
                 <dd><i>{{ account.best_quote }}</i></dd>
                 <hr>
-                <dt>Interests:</dt>
+                <dt translate>Interests:</dt>
                 <dd>{{ account.interests }}</dd>
                 <hr>
-                <dt>Medals:</dt>
+                <dt translate>Medals:</dt>
                 <dd>
                     <img ng-src="{{ ach.image_url }}" title="{{ ach.title }}" ng-repeat="ach in account.achievements">
                 </dd>
                 <hr>
-                <dt>Posts:</dt>
-                <dd><p>Sort by:
+                <dt translate>Posts:</dt>
+                <dd><p translate>Sort by:
                     <a href="javascript:void(0)" ng-click="setSortField('name')">Name</a>
                     <a href="javascript:void(0)" ng-click="setSortField('created_at')">Date</a></p>
                     <div ng-repeat="curent_post in posts | orderBy:sortField:reverse"

@@ -1,0 +1,220 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.4\n"
+
+#: accounts/settings.html:30
+msgid "Best quote"
+msgstr "Best quote"
+
+#: accounts/account.html:18
+msgid "Best quote:"
+msgstr "Best quote:"
+
+#: comments/comments.html:40 comments/comments.html:57
+msgid "Cancel"
+msgstr "Cancel"
+
+#: posts/posts-edit.html:27
+msgid "Category"
+msgstr "Category"
+
+#: accounts/settings.html:45
+msgid "Confirm Password"
+msgstr "Confirm Password"
+
+#: posts/posts-edit.html:36
+msgid "Content"
+msgstr "Content"
+
+#: comments/comments.html:41
+msgid "Create"
+msgstr "Create"
+
+#: layout/navbar.html:18
+msgid "Create post"
+msgstr "Create post"
+
+#: comments/comments.html:11 posts/posts-detail.html:20
+msgid "Delete"
+msgstr "Delete"
+
+#: accounts/settings.html:25
+msgid "Description"
+msgstr "Description"
+
+#: accounts/account.html:15
+msgid "Description:"
+msgstr "Description:"
+
+#: accounts/account.html:3 comments/comments.html:14
+#: posts/posts-detail.html:17
+msgid "Edit"
+msgstr "Edit"
+
+#: comments/comments.html:51
+msgid "Edit Comment"
+msgstr "Edit Comment"
+
+#: accounts/settings.html:5 authentication/login.html:9
+#: authentication/register.html:8
+msgid "Email"
+msgstr "Email"
+
+#: accounts/settings.html:15
+msgid "First name"
+msgstr "First name"
+
+#: accounts/account.html:9
+msgid "First name:"
+msgstr "First name:"
+
+#: accounts/settings.html:35
+msgid "Interests"
+msgstr "Interests"
+
+#: accounts/account.html:21
+msgid "Interests:"
+msgstr "Interests:"
+
+#: accounts/settings.html:20
+msgid "Last name"
+msgstr "Last name"
+
+#: accounts/account.html:12
+msgid "Last name:"
+msgstr "Last name:"
+
+#: comments/comments.html:17
+msgid "Like"
+msgstr "Like"
+
+#: comments/comments.html:24
+msgid "Likes: {{ comment.likes.length }}"
+msgstr "Likes: {{ comment.likes.length }}"
+
+#: layout/navbar.html:30
+msgid "Login"
+msgstr "Login"
+
+#: layout/navbar.html:29
+msgid "Logout"
+msgstr "Logout"
+
+#: accounts/account.html:24
+msgid "Medals:"
+msgstr "Medals:"
+
+#: top-posts.html:4
+msgid "Most popular posts"
+msgstr "Most popular posts"
+
+#: layout/navbar.html:19
+msgid "My profile"
+msgstr "My profile"
+
+#: posts/posts-edit.html:4
+msgid "Name"
+msgstr "Name"
+
+#: comments/comments.html:34
+msgid "New Comment"
+msgstr "New Comment"
+
+#: accounts/settings.html:40
+msgid "New Password"
+msgstr "New Password"
+
+#: layout/navbar.html:22
+msgid "Options <span class=\"caret\"></span>"
+msgstr "Options <span class=\"caret\"></span>"
+
+#: authentication/login.html:14 authentication/register.html:18
+msgid "Password"
+msgstr "Password"
+
+#: layout/navbar.html:6
+msgid "Poster"
+msgstr "Poster"
+
+#: accounts/account.html:29
+msgid "Posts:"
+msgstr "Posts:"
+
+#: posts/posts-detail.html:9
+msgid "Rating: {{ post.rating | number:2 }}"
+msgstr "Rating: {{ post.rating | number:2 }}"
+
+#: posts/posts-detail-mini.html:6
+msgid "Read more..."
+msgstr "Read more..."
+
+#: layout/navbar.html:31
+msgid "Register"
+msgstr "Register"
+
+#: layout/search.html:2
+msgid "Results for: {{ query }}"
+msgstr "Results for: {{ query }}"
+
+#: comments/comments.html:58 posts/posts-edit.html:41
+msgid "Save"
+msgstr "Save"
+
+#: layout/navbar.html:13
+msgid "Search"
+msgstr "Search"
+
+#: accounts/account.html:30
+msgid ""
+"Sort by:\n"
+"                    <a href=\"javascript:void(0)\" ng-click="
+"\"setSortField('name')\">Name</a>\n"
+"                    <a href=\"javascript:void(0)\" ng-click="
+"\"setSortField('created_at')\">Date</a>"
+msgstr ""
+"Sort by:\n"
+"                    <a href=\"javascript:void(0)\" ng-click="
+"\"setSortField('name')\">Name</a>\n"
+"                    <a href=\"javascript:void(0)\" ng-click="
+"\"setSortField('created_at')\">Date</a>"
+
+#: accounts/settings.html:50
+msgid "Submit"
+msgstr "Submit"
+
+#: posts/posts-detail-mini.html:5 posts/posts-detail.html:4
+msgid ""
+"Tags: <a class=\"well well-sm\" style=\"margin-left: 10px;\" ui-sref=\"app."
+"search({query:tag.text})\" ng-repeat=\"tag in post.tags\">{{ tag.text }}</a>"
+msgstr ""
+"Tags: <a class=\"well well-sm\" style=\"margin-left: 10px;\" ui-sref=\"app."
+"search({query:tag.text})\" ng-repeat=\"tag in post.tags\">{{ tag.text }}</a>"
+
+#: posts/posts-edit.html:9
+msgid "Title"
+msgstr "Title"
+
+#: posts/posts-detail-mini.html:3
+msgid "Title: {{ post.title }}"
+msgstr "Title: {{ post.title }}"
+
+#: comments/comments.html:20
+msgid "Unlike"
+msgstr "Unlike"
+
+#: accounts/settings.html:10 authentication/register.html:13
+msgid "Username"
+msgstr "Username"
+
+#: accounts/account.html:6
+msgid "Username:"
+msgstr "Username:"
