@@ -9,6 +9,7 @@
 
     function SearchsController($scope, $http, Snackbar, $stateParams) {
         $scope.posts = [];
+        $scope.query = $stateParams.query;
 
         function getPostsFromSearch(query) {
             $http({
@@ -29,9 +30,7 @@
         activate()
 
         function activate() {
-            var query = $stateParams.query;
-
-            getPostsFromSearch(query);
+            getPostsFromSearch($scope.query);
         }
     }
 })();

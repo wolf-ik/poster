@@ -5,21 +5,27 @@
     .module('poster.layout.controllers')
     .controller('NavbarController', NavbarController);
 
-  NavbarController.$inject = ['$scope', 'Authentication', 'Account', 'Snackbar'];
+  NavbarController.$inject = ['$scope', 'Authentication', 'Account', 'Snackbar', '$state'];
 
-  function NavbarController($scope, Authentication, Account, Snackbar) {
+  function NavbarController($scope, Authentication, Account, Snackbar, $state) {
     $scope.isAuthenticated = Authentication.isAuthenticated;
     $scope.account = Authentication.getAuthenticatedAccount();
     $scope.themes = ['slate', 'spacelab'];
     $scope.languages = ['en', 'ru'];
     $scope.searchQuery = '';
 
+    $scope.search = search;
     $scope.getTheme = getTheme;
     $scope.getLanguage = getLanguage;
     $scope.changeTheme = changeTheme;
     $scope.changeLanguage = changeLanguage;
     $scope.logout = logout;
 
+
+    function search() {
+      $state.go('app.search', {'query': $scope.searchQuery});
+      $scope.searchQuery = '';
+    }
 
     function getTheme() {
       if (!$scope.account) {

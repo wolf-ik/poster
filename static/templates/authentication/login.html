@@ -1,10 +1,6 @@
 <div class="row">
   <div class="col-md-6 col-md-offset-6">
     <h1>Login</h1>
-    <div class="well" ng-click="vm.oauthLogin('facebook')">facebook</div>
-    <div class="well" ng-click="vm.oauthLogin('twitter')">twitter</div>
-    <div class="well" ng-click="vm.oauthLogin('vk-oauth2')">vkontakte</div>
-
     <div class="well">
       <form role="form" ng-submit="vm.login()">
         <div class="alert alert-danger" ng-show="error" ng-bind="error"></div>
@@ -20,9 +16,17 @@
         </div>
 
         <div class="form-group">
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="submit" class="btn btn-primary pull-right">Submit</button><br>
         </div>
       </form>
     </div>
+      <div>
+          <img src="http://res.cloudinary.com/dyyrfcyxa/image/upload/c_scale,w_125,h_125/v1456112288/square-facebook-512_ticn8p.png"
+               ng-click="vm.oauthLogin('facebook')">
+          <img src="http://res.cloudinary.com/dyyrfcyxa/image/upload/c_scale,w_125,h_125/v1456112260/twitter-logo-icon-by-jon-bennallick-02_t2cd57.png"
+               ng-click="vm.oauthLogin('twitter')">
+          <img src="http://res.cloudinary.com/dyyrfcyxa/image/upload/c_scale,w_125,h_125/v1456112232/p1_2018425_81e7cbc2_qxbns2.jpg"
+               ng-click="vm.oauthLogin('vk-oauth2')">
+      </div>
   </div>
 </div>

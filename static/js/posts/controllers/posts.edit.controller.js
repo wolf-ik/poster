@@ -36,10 +36,7 @@
                 $scope.post = data.data;
                 $scope.ck = CKEDITOR.replace('post-edit__content');
                 $scope.ck.setData($scope.post.content);
-                if (!Permissions.isAccountOwnerOrAdmin($scope.post.owner.username)) {
-                    $state.go('app.home');
-                    Snackbar.show('Permissions denied.');
-                }
+                checkPermissions();
             }
 
             function getErrorFn(data) {
@@ -54,6 +51,12 @@
             });
         }
 
+        function checkPermissions() {
+            if (!Permissions.isAccountOwnerOrAdmin($scope.post.owner.username)) {
+                $state.go('app');
+                Snackbar.show('Permissions denied.');
+            }
+        }
 
 
         activate()

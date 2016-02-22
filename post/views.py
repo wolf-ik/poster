@@ -172,6 +172,8 @@ class RatingViewSet(mixins.CreateModelMixin,
         user = request.user
         post_id = request.data.get('post_id', None)
         value = request.data.get('value', None)
+        if not 1 <= value <= 5:
+            return Response({'detail': 'Rating may not be more than 5 and less than 1'}, status=status.HTTP_400_BAD_REQUEST)
         try:
             post = Post.objects.get(id=post_id)
         except Post.DoesNotExist:

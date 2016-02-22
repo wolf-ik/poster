@@ -37,14 +37,18 @@
             });
         }
 
+        function checkPermissions() {
+            if (!Permissions.isAuthenticated()) {
+                $state.go('app');
+                Snackbar.show('You need LogIn or SignUp.');
+            }
+        }
+
 
         activate()
 
         function activate() {
-            if (!Permissions.isAuthenticated()) {
-                $state.go('app.home');
-                Snackbar.show('You need LogIn or SignUp.');
-            }
+            checkPermissions();
             Post.loadCategories($scope.categories);
             Post.loadTagList({'sort_by': 'all'}, setTags);
 

@@ -1,11 +1,8 @@
-<div"
+<div class="col-md-10"
      infinite-scroll="loadMore()"
      infinite-scroll-distance="1"
      infinite-scroll-disabled="scrollDisabled">
 
-    <button class="btn btn-info" ui-sref="app.posts.create" ng-show="isAuthenticated">Create new post!</button>
-
-    <h1>posts template</h1>
     <div ng-repeat="curent_post in posts"
          ng-include
          src="'/static/templates/posts/posts-detail-mini.html'"

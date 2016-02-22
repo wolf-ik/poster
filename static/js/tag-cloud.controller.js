@@ -22,6 +22,7 @@
                         'id': tags[i].id,
                         'text': tags[i].text,
                         'weight': Math.floor((Math.random()*100)+1),
+                        'link': 'javascript:void(0)',
                         'handlers': {
                             click: function() {
                                 var q = angular.copy(tags[i].text);
