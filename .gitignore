@@ -1,5 +1,8 @@
 *.pyc
+*.py~
 
 .idea/*
-
 .po/*
+
+static/bower_components/*
+

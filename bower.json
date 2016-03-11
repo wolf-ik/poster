@@ -16,6 +16,16 @@
     "tests"
   ],
   "dependencies": {
-    "angular-gettext": "^2.2.1"
+    "angular": "1.5.0",
+    "angular-cookies": "1.5.0",
+    "angular-gettext": "^2.2.1",
+    "angular-jqcloud": "1.0.2",
+    "angular-ui-router": "0.2.18",
+    "bootstrap": "3.3.6",
+    "crypto-js": "3.1.6",
+    "ng-tags-input": "3.0.0",
+    "ngInfiniteScroll": "1.0.0",
+    "satellizer": "0.13.4",
+    "snackbarjs": "1.1.0"
   }
 }

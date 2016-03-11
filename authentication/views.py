@@ -40,6 +40,14 @@ class AccountViewSet(viewsets.ModelViewSet):
             return Response(serializer.validated_data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    def update(self, request, *args, **kwargs):
+        data = request.data
+        p = data.get('password', None)
+        cp = data.get('confirm_password', None)
+        if p != cp:
+            return Response('Password and confirm password must march.', status=status.HTTP_400_BAD_REQUEST)
+        return super(AccountViewSet, self).update(request, *args, **kwargs)
+
 
 class LoginView(views.APIView):
     # def pad_str(self, in_string):
@@ -48,7 +56,7 @@ class LoginView(views.APIView):
     #     return in_string.ljust(in_len + pad_size, chr(pad_size))
     #
     def post(self, request, format=None):
-        data = json.loads(request.body)
+        data = request.data
 
         email = data.get('email', None)
         password = data.get('password', None)

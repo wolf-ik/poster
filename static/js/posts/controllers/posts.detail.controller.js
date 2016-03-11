@@ -63,7 +63,10 @@
 
         function getPostFromId(id) {
             $scope.post = TopPost.getExistPost(id);
-            if ($scope.post) return;
+            if ($scope.post) {
+                $scope.isPostOwnerOrAdmin = Permissions.isAccountOwnerOrAdmin($scope.post.owner.username);
+                return;
+            }
             Post.retrieve(id).then(getSuccessFn, getErrorFn);
 
             function getSuccessFn(data) {
