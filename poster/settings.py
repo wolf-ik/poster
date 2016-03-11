@@ -1,5 +1,10 @@
 import os
 
+try:
+    from settings_production import *
+except ImportError:
+    pass
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -8,7 +13,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '546avp^nid5g(8khvefp3i!7^6e&q9*@9&0dqezsu!_tl0-)tg'
+SECRET_KEY = SECRET_KEY_PRODUCTION
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -72,10 +77,10 @@ WSGI_APPLICATION = 'poster.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'poster_db',
+        'NAME': MYSQL_DB_NAME,
         'HOST': 'localhost',
-        'USER': 'root',
-        'PASSWORD': 'nensia',
+        'USER': MYSQL_DB_USER,
+        'PASSWORD': MYSQL_DB_PASS,
     }
 }
 
@@ -146,16 +151,16 @@ SPHINX_API_VERSION = 0x116
 SPHINX_PORT = 9312
 SPHINX_SERVER = '127.0.0.1'
 
-SOCIAL_AUTH_FACEBOOK_KEY = '1667998946784328'
-SOCIAL_AUTH_FACEBOOK_SECRET = '7ae1464fe1dcea9a92db0e64b107c00e'
+SOCIAL_AUTH_FACEBOOK_KEY = FACEBOOK_KEY
+SOCIAL_AUTH_FACEBOOK_SECRET = FACEBOOK_SECRET
 SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
 
-SOCIAL_AUTH_TWITTER_KEY = 'xspzddY58kqJi5eYTxtxqdUgY'
-SOCIAL_AUTH_TWITTER_SECRET = 'iKYqQ9dVTgtSa7zUryIlxU7hm4z1AbPF7YVy4GRkL2iiMTb8tI'
+SOCIAL_AUTH_TWITTER_KEY = TWITTER_KEY
+SOCIAL_AUTH_TWITTER_SECRET = TWITTER_SECRET
 SOCIAL_AUTH_TWITTER_SCOPE = ['email']
 
-SOCIAL_AUTH_VK_OAUTH2_KEY = '5304589'
-SOCIAL_AUTH_VK_OAUTH2_SECRET = 'f6moZ2Q6P6GkDzdwikMX'
+SOCIAL_AUTH_VK_OAUTH2_KEY = VK_KEY
+SOCIAL_AUTH_VK_OAUTH2_SECRET = VK_SECRET
 SOCIAL_AUTH_VK_OAUTH2_SCOPE = ['email']
 
 AUTHENTICATION_BACKENDS = (
@@ -165,7 +170,3 @@ AUTHENTICATION_BACKENDS = (
 
     'django.contrib.auth.backends.ModelBackend',
 )
-
-# REST_AUTH_SERIALIZERS = {
-#     'USER_DETAILS_SERIALIZER': 'authentication.serializers.AccountSerializer',
-# }

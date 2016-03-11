@@ -1,6 +1,8 @@
 *.pyc
 *.py~
 
+poster/settings_production.py
+
 .idea/*
 .po/*
 
